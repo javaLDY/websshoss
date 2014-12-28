@@ -60,6 +60,7 @@
     <mvc:resources mapping="/css/**" location="/css/"/>
     <!--<mvc:resources mapping="/extjs/**" location="/extjs/"/>-->
     <mvc:resources mapping="/html/**" location="/html/"/>
+    <mvc:resources mapping="/lib/**" location="/lib/"/>
 
 
     <!--<mvc:interceptors>-->
