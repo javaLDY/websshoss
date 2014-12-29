@@ -36,4 +36,21 @@ public class ToolsDao {
         result = jt.queryForList(sql,new Object[]{emailvalue},new int[]{Types.VARCHAR});
         return result;
     }
+
+    //商品信息的模糊查询
+    public List<Map<String,Object>> selecmerchan(String merchanname){
+        List<Map<String,Object>> result = null;
+        String sql = "select * from dbo.TMe_MerchandiseInfo a where a.MerchandiseName like ?";
+        result = jt.queryForList(sql,new Object[]{"%"+merchanname+"%"},new int[]{Types.VARCHAR});
+        return result;
+    }
+
+    public List<Map<String,Object>> pageselecmerchan(String merchanname,int pageSize,int pageIndex){
+        List<Map<String,Object>> result = null;
+        String sql = "select top "+pageSize+" * from dbo.TMe_MerchandiseInfo a" +
+                     " where a.MerchandiseName" +
+                "  not in (select top (("+pageIndex+"-1) * "+pageSize+") MerchandiseName from dbo.TMe_MerchandiseInfo where MerchandiseName like '%"+merchanname+"%')and a.MerchandiseName like '%"+merchanname+"%' ;";
+        result = jt.queryForList(sql);
+        return result;
+    }
 }
