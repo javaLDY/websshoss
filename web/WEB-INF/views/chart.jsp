@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -13,6 +14,10 @@
     <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/LoginAndReg.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/gmxx.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">var pageindex = '${pageindex}'</script>
+    <script type="text/javascript">var pagesumnum = '${sumnum}'</script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/chart.js"></script>
 </head>
 
 <body>
@@ -80,6 +85,7 @@
                 <DIV class="bxSty"><!--Product-->
                     <table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tabSty01" id="shoppingCatTable">
                         <tr class="trSty01" bgcolor="#7a7f89">
+                            <td align="center" height="32">勾选</td>
                             <td align="center" height="32">商品</td>
                             <td align="center" height="32">名称</td>
                             <td align="center" height="32">单价</td>
@@ -87,43 +93,29 @@
                             <td align="center" height="32">小计</td>
                             <td align="center">操作</td>
                         </tr>
+                        <c:forEach items="${modellist}" var="chart">
                         <tr>
-                            <td width="160" height="160" align="center" valign="middle"><span class="imgw"><a href="#" target="_blank"><img src="<%=request.getContextPath()%>/images/pro_04.jpg" alt="带帽水洗收腰休闲夹克 灰色" border="0" width="160" /></a></span></td>
-                            <td><a href="#" target="_blank"><span class="STYLE5">推荐 新疆和田 玉枣 32元 肉厚 相当于昆仑山四星</span></a></td>
-                            <td align="center">￥<span id="00072650">199.00</span></td>
-                            <td align="center"><input name="OrderAmount_2" id="OrderAmount_2" maxlength="3" onchange="changeSuccess=false;EditProductCount('00072650','1',this)" onkeypress=" if((arguments[0] || window.event).keyCode==13){this.blur(); return false;}" style="width: 20px; height: 15px; color: rgb(75, 75, 75);" value="1" type="text" /></td>
-                            <td align="center">￥<span id="Pdt_price">199.00</span></td>
+                            <td align="center"><input type="checkbox" width="50" height="50" style="height: 30px;width: 30px" id="checkboxid" class="checkboxid" /></td>
+                            <td width="160" height="170" align="center" valign="middle"><span class="imgw"><a href="#" target="_blank"><img src="${ctx}/${chart.picth}" alt="带帽水洗收腰休闲夹克 灰色" border="0" width="160" height="170" /></a></span></td>
+                            <td><a href="#" target="_blank"><span class="STYLE5">${chart.merchandisename}</span></a></td>
+                            <td align="center">￥<span id="00072650" data="${chart.price}">${chart.price}</span></td>
+                            <td align="center"><input name="OrderAmount_2" id="OrderAmount_2" maxlength="3" onchange="changeSuccess=false;EditProductCount('00072650','1',this)" onkeypress=" if((arguments[0] || window.event).keyCode==13){this.blur(); return false;}" style="width: 20px; height: 15px; color: rgb(75, 75, 75);" value="${chart.num}" type="text" /></td>
+                            <td align="center">￥<span id="Pdt_price">${chart.smallsum}</span></td>
                             <td align="center"><a href="javascript:DeleteProduct('00072650',1);">删除</a></td>
                         </tr>
-                        <tr>
-                            <td height="160" align="center" class="gwcSuit"><span class="imgw"><a href="#" target="_blank"><img src="<%=request.getContextPath()%>/images/pro_02.jpg" alt="带帽水洗收腰休闲夹克 灰色" border="0" width="160" /></a></span></td>
-                            <td class="gwcSuit" align="left" height="70"><a href="#" target="_blank"><span class="STYLE5">推荐 新疆和田 玉枣 32元 肉厚 相当于昆仑山四星</span></a></td>
-                            <td class="gwcSuit" align="center">￥<span class="price">9.00</span></td>
-                            <td class="gwcSuit" align="center"><input name="OrderAmount_" id="OrderAmount_" maxlength="3" onchange="changeSuccess=false;EditProductCount('00072650','1',this)" onkeypress=" if((arguments[0] || window.event).keyCode==13){this.blur(); return false;}" style="width: 20px; height: 15px; color: rgb(75, 75, 75);" value="1" type="text" /></td>
-                            <td class="gwcSuit" align="center">￥<span class="subtotal">9.00</span></td>
-                            <td class="gwcSuit" align="center"><a href="javascript:DeleteProduct('00072650',1);">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td height="160" align="center" valign="middle"><span class="imgw"><a href="#" target="_blank"><img src="<%=request.getContextPath()%>/images/pro_03.jpg" alt="带帽水洗收腰休闲夹克 灰色" border="0" width="160" /></a></span></td>
-                            <td><a href="#" target="_blank"><span class="STYLE5">推荐 新疆和田 玉枣 32元 肉厚 相当于昆仑山四星</span></a></td>
-                            <td align="center">￥<span id="00072650">199.00</span></td>
-                            <td align="center"><input name="OrderAmount_2" id="OrderAmount_2" maxlength="3" onchange="changeSuccess=false;EditProductCount('00072650','1',this)" onkeypress=" if((arguments[0] || window.event).keyCode==13){this.blur(); return false;}" style="width: 20px; height: 15px; color: rgb(75, 75, 75);" value="1" type="text" /></td>
-                            <td align="center">￥<span id="Pdt_price">199.00</span></td>
-                            <td align="center"><a href="javascript:DeleteProduct('00072650',1);">删除</a></td>
-                        </tr>
+                        </c:forEach>
                     </table>
                     <TABLE width="80%" border=0 align="center" cellPadding=0 cellSpacing=0 class="dobuleBorder">
                         <TBODY>
                         <TR>
                             <TD class="tdStyProductTotal" vAlign=top align=right>产品数量总计：<SPAN
-                                    class="colSty " id="spTotalCount">0</SPAN><SPAN
+                                    class="colSty " id="spTotalCount">${sumnum}</SPAN><SPAN
                                     class="colSty sty008">件</SPAN>赠送积分总计：<SPAN class="colSty"
                                                                                id="giftPoint">0</SPAN><SPAN class="colSty sty008">分</SPAN>花费积分总计：<SPAN
                                     class="colSty " id="totalPoint">0</SPAN><SPAN
-                                    class="colSty sty010">分</SPAN><SPAN id="decspan">产品金额总计：<SPAN
-                                    class="colSty ">￥</SPAN><SPAN class="colSty sty008"
-                                                                  id="spTotalAmount">0.00</SPAN><BR><SPAN
-                                    class="fontSty01">实际金额：<SPAN
+                                    class="colSty sty010">分</SPAN>&nbsp;&nbsp;<SPAN id="decspan">产品金额总计：<SPAN
+                                    class="colSty ">￥${totalprice}</SPAN>
+                               <BR><SPAN class="fontSty01">实际金额：<SPAN
                                     class="colSty"><STRONG>￥</STRONG></SPAN><STRONG><SPAN class="colSty"
                                                                                           id="spRealTotalAmount">0.00</SPAN></STRONG></SPAN></SPAN></TD></TR></TBODY></TABLE>
                     <TABLE width="80%" border=0 align="center" cellPadding=0 cellSpacing=0 class="tabSty001">
@@ -156,6 +148,9 @@
                     </DD></DL></DIV>
         </div>
         <br class="spacer" />
+        <div class="page" style="text-align: center;border: 1px solid yellowgreen;background:yellowgreen ">
+            <img id="tiaojian2" src="<%=request.getContextPath()%>/images/jiantou1.png" style="cursor: pointer"/>&nbsp;共 ${sumnum} 个商品 | 分 ${pagetotalnum} 页显示 | 当前第 ${pageindex} 页 | <input type="text" id="inputpageto" style="width: 35px"/>&nbsp;<button id="pageto" style="width: 30px;background: yellowgreen" type="button">go</button>&nbsp;<img id="tiaojian1" src="<%=request.getContextPath()%>/images/jiantou2.png" style="cursor: pointer"/>
+        </div>
     </div>
     <!--footer start -->
     <div id="footer">

@@ -149,10 +149,10 @@ ssssssssss<br />
             <div class="hotsale" id="hotsalea">
                 <c:forEach items="${merchandiseall}" var="merchandisea">
                 <dl>
-                    <dt><a href="${ctx}/shinowit/innerpage" target="_new"><img src=${ctx}/${merchandisea.picpath} width="130" height="130" border="0" /></a></dt>
+                    <dt><a href="${ctx}/shinowit/innerpage?merchanname=${merchandisea.merchandisename}" target="_new"><img src=${ctx}/${merchandisea.picpath} width="130" height="130" border="0" /></a></dt>
                     <dd style="color: yellowgreen;text-align: center">|${merchandisea.merchandisename}|￥${merchandisea.price}|</dd>
                     <dd  style="visibility:hidden" id="unique4">${merchanname}</dd>
-                    <dd><span class="viv2"><a href="${ctx}/shinowit/innerpage" target="_new"><img src="<%=request.getContextPath()%>/images/vivioow_b2.jpg" width="80" height="24" border="0" style="margin-left: 40px" /></a></span></dd>
+                    <dd><span class="viv2"><a href="${ctx}/shinowit/innerpage?merchanname=${merchandisea.merchandisename}" target="_new"><img src="<%=request.getContextPath()%>/images/vivioow_b2.jpg" width="80" height="24" border="0" style="margin-left: 40px" /></a></span></dd>
                 </dl>
                 </c:forEach>
                 <br class="spacer" />
@@ -162,7 +162,7 @@ ssssssssss<br />
         <!--mid end -->
         <br class="spacer" />
         <div class="page" style="text-align: center;border: 1px solid yellowgreen;background:yellowgreen ">
-            <img id="tiaojian2" src="<%=request.getContextPath()%>/images/jiantou1.png"/>&nbsp;共 ${merchandisetoalnum} 个商品 | 分 ${pagesumnum} 页显示 | 当前第 ${pageIndex} 页 | <input type="text" id="inputpageto" style="width: 35px"/>&nbsp;<button id="pageto" style="width: 30px;background: yellowgreen" type="button">go</button>&nbsp;<img id="tiaojian1" src="<%=request.getContextPath()%>/images/jiantou2.png"/>
+            <img id="tiaojian2" src="<%=request.getContextPath()%>/images/jiantou1.png" style="cursor: pointer"/>&nbsp;共 ${merchandisetoalnum} 个商品 | 分 ${pagesumnum} 页显示 | 当前第 ${pageIndex} 页 | <input type="text" id="inputpageto" style="width: 35px"/>&nbsp;<button id="pageto" style="width: 30px;background: yellowgreen" type="button">go</button>&nbsp;<img id="tiaojian1" src="<%=request.getContextPath()%>/images/jiantou2.png" style="cursor: pointer"/>
         </div>
     </div>
     </form:form>

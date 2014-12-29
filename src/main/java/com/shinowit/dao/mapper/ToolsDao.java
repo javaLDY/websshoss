@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.sql.Types;
 import java.util.List;
 import java.util.Map;
@@ -54,13 +55,20 @@ public class ToolsDao {
         return result;
     }
     //购物车的插入
-    public boolean chartinsert(String merchanname,String price,String picture,int num,int smallnum){
+    public boolean chartinsert(String merchanname,BigDecimal price,String picture,int num,BigDecimal smallnum){
         boolean result = false;
         String sql = "insert into chart(merchandisename,smallsum,num,picth,price) values(?,?,?,?,?)";
-        int a = jt.update(sql,new Object[]{merchanname,smallnum,num,picture,price},new int[]{Types.VARCHAR,Types.VARCHAR,Types.INTEGER,Types.VARCHAR,Types.VARCHAR});
+        int a = jt.update(sql,new Object[]{merchanname,smallnum,num,picture,price},new int[]{Types.VARCHAR,Types.NUMERIC,Types.INTEGER,Types.VARCHAR,Types.NUMERIC});
         if(a>0){
             result = true;
         }
+        return result;
+    }
+    //购物车的总数量计算
+    public List<Map<String,Object>> totalnum(){
+        List<Map<String,Object>> result = null;
+        String sql = "select SUM(num) as snumnum,SUM(price) as totalprice from dbo.chart ";
+        result = jt.queryForList(sql,new Object[]{},new int[]{});
         return result;
     }
 }

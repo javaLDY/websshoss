@@ -6,12 +6,69 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
     <title>启奥</title>
     <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/innerstyle.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".uniqueid").click(function(){
+                $.ajax({
+                    type:"get",
+                    url:"<%=request.getContextPath()%>/shinowit/merchandise",
+                    data:{merchanCid:$(this).attr("data")},
+                    contendType:"application/json",
+                    success : function(msg){
+                        var newdata="";
+                        for(var a= 0;a<msg.length;a++){
+                            newdata +=
+                                    "<ul>"+
+                                    "<li><a class='uniqueid' href='${ctx}/shinowit/index' data="+msg[a].merchandiseid+">"+msg[a].merchandisename+"</a></li>"+
+                                    "</ul>"
+                        }
+                        document.getElementById("uniqueid2").innerHTML=newdata;
+                        //$("#uniqueid2").innerHTML=newdata
+                    },
+                    error : function(){
+                        alert("数据加载失败")
+                    }
+                })
+            });
+            $("#gouwucheid").click(function(){
+                $.ajax({
+                    type : "GET",
+                    url : "<%=request.getContextPath()%>/shinowit/chartcar",
+                    data : {
+                        picture : $("#picture1").attr("data"),
+                        num : $("#numid").val(),
+                        price : $("#priceid").attr("data"),
+                        merchanname : $("#strongid").attr("data")
+                    },
+                    dataType : "Text",
+                    success : function(msg){
+                        alert(msg)
+                    },
+                    error : function(msg){
+                        alert(msg)
+                    }
+
+                })
+            });
+            $("#numaddid").mousedown(function(){
+                $("#numid").val(parseInt($("#numid").val())+1);
+                $("#numaddid").css("background","gray")
+            })
+            $("#numaddid").mouseup(function(){
+                $("#numaddid").css("background","lightgrey")
+            })
+        });
+
+    </script>
 </head>
 <body>
 <div id="box">
@@ -74,37 +131,19 @@
         <!--left start -->
         <div id="left">
             <h2>商品分类</h2>
-            <ul>
-                <li><a href="#">特级椒盐味</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">壳杏仁 23元/500克 </a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">壳杏仁 23元/500克 </a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">壳杏仁 23元/500克</a></li>
-                <li><a href="#">壳杏仁 23元/500克 </a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">壳杏仁 23元/500克</a></li>
-            </ul>
-            <h2 class="detail">纸皮巴旦木龙果</h2>
-            <ul class="leftLink">
-                <li><a href="#">特级椒盐味</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">特级椒盐味</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">特级椒盐味</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">特级椒盐味</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-                <li><a href="#">纸皮巴旦木龙果</a></li>
-            </ul>
+                <c:forEach items="${merchanCinfo}" var="merchanC">
+                    <ul>
+                        <li><a class="uniqueid"  data="${merchanC.merchandisecid}">${merchanC.merchandisecname}</a></li>
+                    </ul>
+                </c:forEach>
+            <h2 class="detail">商品信息</h2>
+            <div id="uniqueid2">
+                <c:forEach items="${merchandise}" var="merchandise">
+                    <ul class="leftLink">
+                        <li><a class="unique3" href="<%=request.getContextPath()%>/shinowit/index?merchanname=${merchandise.merchandisename}">${merchandise.merchandisename}</a></li>
+                    </ul>
+                </c:forEach>
+            </div>
             <br class="spacer" />
     <span style="color:#f9c441;">sssss<br />
     ssssssssss<br />
@@ -118,61 +157,39 @@
         <!--pro_price start -->
         <div class="pro_price">
             <dl>
-                <dt><img src="<%=request.getContextPath()%>/images/T1.jpg" width="310" height="310" /></dt>
+                <dt><img src="<%=request.getContextPath()%>/${picpath}" width="310" height="310" data="${picpath}" id="picture1" /></dt>
                 <dd><table height="413" border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border:#ccc 1px solid;">
                     <tbody>
                     <tr>
-                        <td valign="top" align="middle" width="323" colspan="2"
+                        <td valign="center" align="middle" width="323" colspan="2"
                             height="30"><font
-                                color="#bb1213"><strong>实心眼 特级薄皮奶香味 巴旦木 250g</strong></font></td>
+                                color="#bb1213"><strong id="strongid" data="${merchanname}">${merchanname} ${spen}${unite}</strong></font></td>
                     </tr>
                     <tr>
-                        <td valign="top" align="right" width="111"
+                        <td valign="center" align="middle" width="162"
                             height="28">市 场 价：</td>
-                        <td valign="top" width="212" height="28"><span style="text-decoration:line-through; font-size:14px;color:#666; font-weight:bold;">￥25.0</span></td>
+                        <td valign="center" width="162" align="middle" height="28"><span id="priceid" style="text-decoration:line-through; font-size:14px;color:#666; font-weight:bold;" data="${price}">￥${price}</span></td>
                     </tr>
                     <tr>
-                        <td valign="top" align="right" width="111"
+                        <td valign="center" align="middle" width="162"
                             height="28">网 站 价：</td>
-                        <td valign="top" width="212" height="28"><span style=" font-size:14px;color:#c00; font-weight:bold;">￥18.0</span></td>
+                        <td valign="center" width="162" align="middle" height="28"><span style=" font-size:14px;color:#c00; font-weight:bold;">￥${price}</span></td>
                     </tr>
                     <tr>
-                        <td valign="top" align="right" width="111"
+                        <td valign="center" align="middle" width="162"
                             height="28">规&nbsp;&nbsp;&nbsp; 格：</td>
-                        <td valign="top" width="212" height="28">500g</td>
+                        <td valign="center" width="162" align="middle" height="28">${spen}${unite}</td>
                     </tr>
                     <tr>
-                        <td valign="top" align="right" width="111" height="28">批 发 价：</td>
-                        <td valign="top" width="212"
-                            height="28">电话咨询</td>
+                        <td valign="center" align="middle" width="162" height="28">数 量：</td>
+                        <td valign="center" width="162" align="middle"
+                            height="28"><input id="numid" value="1" style="width: 29px;text-align: center"/><img id="numaddid" style="width: 20px;height: 19px;background: lightgrey;cursor: pointer" src="<%=request.getContextPath()%>/images/numadd.png"/></td>
                     </tr>
                     <tr>
-                        <td align="right" width="111" height="5"></td>
-                        <td width="212" height="5"></td>
+                        <td valign="center" align="middle" width="111" height="5"><img id="gouwucheid"  src="<%=request.getContextPath()%>/images/vivioow_b3.jpg" height="35" style="cursor: pointer"/></td>
+                        <td width="162" valign="center" align="middle" height="47"><img src="<%=request.getContextPath()%>/images/vivioow_b2.jpg" height="35" style="cursor: pointer"/></td>
                     </tr>
-                    <tr>
-                        <td valign="top" align="right" width="111"
-                            height="21">内&nbsp;&nbsp;&nbsp; 配：</td>
-                        <td valign="top" width="212" height="169" rowspan="2"><table height="32" cellspacing="0" cellpadding="0"
-                                                                                     width="100%" border="0" style="border:none;">
-                            <tbody>
-                            <tr>
-                                <td
-                                        valign="top">750g有机全麦粉<br />
-                                    750g黄金玉米粉<br />
-                                    750g黄豆粉<br />
-                                    750g地瓜粉<br />
-                                    750g高粱粉<br />
-                                    750g豌豆粉<br />
-                                    750g窝窝头粉<br />
-                                    750g玉米糁</td>
-                            </tr>
-                            </tbody>
-                        </table></td>
-                    </tr>
-                    <tr>
-                        <td width="111" height="147">　</td>
-                    </tr>
+
                     <tr>
                         <td align="middle" width="323" colspan="2"
                             height="89"><span style="font-size:20px; color:#f00; font-weight:bold;">批发价热线：0315-3876584</span></td>
