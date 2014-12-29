@@ -16,7 +16,7 @@
             <property name="searchString" value="Example$" />
             <property name="replaceString" value="Criteria" />
         </plugin>
-        <plugin type="com.shinowit.mybatis.plugin.SelectByPage4MySqlPlugin"/>
+        <plugin type="com.shinowit.mybatis.plugin.SelectByPage4SqlServerPlugin"/>
         <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
                         connectionURL="jdbc:sqlserver://localhost:1433;databaseName=sshoss"
                         userId="sa" password="shinow">

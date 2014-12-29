@@ -14,7 +14,10 @@
     <title>启奥</title>
     <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">var _path = '${ctx}'</script>
+    <script type="text/javascript">var pageindex = '${pageIndex}'</script>
+    <script type="text/javascript">var pagesumnum = '${pagesumnum}'</script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/index.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
            $(".uniqueid").click(function(){
@@ -27,7 +30,7 @@
                        var newdata="";
                        for(var a= 0;a<msg.length;a++){
                            newdata +=
-                                   "<ul>"+
+                           "<ul>"+
                            "<li><a class='uniqueid' href='${ctx}/shinowit/index' data="+msg[a].merchandiseid+">"+msg[a].merchandisename+"</a></li>"+
                            "</ul>"
                        }
@@ -124,7 +127,7 @@
                 <div id="uniqueid2">
                 <c:forEach items="${merchandise}" var="merchandise">
                 <ul class="leftLink">
-                    <li><a href="#">${merchandise.merchandisename}</a></li>
+                    <li><a class="unique3" href="<%=request.getContextPath()%>/shinowit/index?merchanname=${merchandise.merchandisename}">${merchandise.merchandisename}</a></li>
                 </ul>
                 </c:forEach>
                 </div>
@@ -143,12 +146,13 @@ ssssssssss<br />
             <div class="hotsale_ad"><img src="<%=request.getContextPath()%>/images/pic1.jpg" width="780" height="274" /></div>
             <!--hotsale_ad end -->
             <!--hotsale start -->
-            <div class="hotsale">
+            <div class="hotsale" id="hotsalea">
                 <c:forEach items="${merchandiseall}" var="merchandisea">
                 <dl>
                     <dt><a href="${ctx}/shinowit/innerpage" target="_new"><img src=${ctx}/${merchandisea.picpath} width="130" height="130" border="0" /></a></dt>
-                    <dd>${merchandisea.merchandisename}${merchandisea.price}￥</dd>
-                    <dd><span class="viv2"><a href="${ctx}/shinowit/innerpage" target="_new"><img src="<%=request.getContextPath()%>/images/vivioow_b2.jpg" width="80" height="24" border="0" /></a></span></dd>
+                    <dd style="color: yellowgreen;text-align: center">|${merchandisea.merchandisename}|￥${merchandisea.price}|</dd>
+                    <dd  style="visibility:hidden" id="unique4">${merchanname}</dd>
+                    <dd><span class="viv2"><a href="${ctx}/shinowit/innerpage" target="_new"><img src="<%=request.getContextPath()%>/images/vivioow_b2.jpg" width="80" height="24" border="0" style="margin-left: 40px" /></a></span></dd>
                 </dl>
                 </c:forEach>
                 <br class="spacer" />
@@ -158,7 +162,7 @@ ssssssssss<br />
         <!--mid end -->
         <br class="spacer" />
         <div class="page" style="text-align: center;border: 1px solid yellowgreen;background:yellowgreen ">
-            <img src="<%=request.getContextPath()%>/images/jiantou1.png"/>&nbsp;共 20 个商品 | 分 2 页显示 | 当前第 1 页 | <input type="text" id="pageto" style="width: 35px"/>&nbsp;<button style="width: 30px;background: yellowgreen">go</button>&nbsp;<img src="<%=request.getContextPath()%>/images/jiantou2.png"/>
+            <img id="tiaojian2" src="<%=request.getContextPath()%>/images/jiantou1.png"/>&nbsp;共 ${merchandisetoalnum} 个商品 | 分 ${pagesumnum} 页显示 | 当前第 ${pageIndex} 页 | <input type="text" id="inputpageto" style="width: 35px"/>&nbsp;<button id="pageto" style="width: 30px;background: yellowgreen" type="button">go</button>&nbsp;<img id="tiaojian1" src="<%=request.getContextPath()%>/images/jiantou2.png"/>
         </div>
     </div>
     </form:form>

@@ -43,6 +43,7 @@ $(document).ready(function(){
         }else{
             if($("#RexPassWord").val()!=$("#PassWord").val()){
                 $("#ReCheckRePassWord").text("两次输入的密码不一致");
+                $("#RexPassWord")[0].focus();
                 return
             }else{
                 $("#ReCheckRePassWord").text("");
