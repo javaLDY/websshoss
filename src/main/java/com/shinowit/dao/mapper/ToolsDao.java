@@ -44,13 +44,23 @@ public class ToolsDao {
         result = jt.queryForList(sql,new Object[]{"%"+merchanname+"%"},new int[]{Types.VARCHAR});
         return result;
     }
-
+    //真正的商品信息模糊查询
     public List<Map<String,Object>> pageselecmerchan(String merchanname,int pageSize,int pageIndex){
         List<Map<String,Object>> result = null;
         String sql = "select top "+pageSize+" * from dbo.TMe_MerchandiseInfo a" +
                      " where a.MerchandiseName" +
                 "  not in (select top (("+pageIndex+"-1) * "+pageSize+") MerchandiseName from dbo.TMe_MerchandiseInfo where MerchandiseName like '%"+merchanname+"%')and a.MerchandiseName like '%"+merchanname+"%' ;";
         result = jt.queryForList(sql);
+        return result;
+    }
+    //购物车的插入
+    public boolean chartinsert(String merchanname,String price,String picture,int num,int smallnum){
+        boolean result = false;
+        String sql = "insert into chart(merchandisename,smallsum,num,picth,price) values(?,?,?,?,?)";
+        int a = jt.update(sql,new Object[]{merchanname,smallnum,num,picture,price},new int[]{Types.VARCHAR,Types.VARCHAR,Types.INTEGER,Types.VARCHAR,Types.VARCHAR});
+        if(a>0){
+            result = true;
+        }
         return result;
     }
 }
