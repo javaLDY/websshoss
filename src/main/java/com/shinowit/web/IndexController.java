@@ -51,20 +51,6 @@ public class IndexController {
         return merchaninfolist;
     }
 
-//    @RequestMapping("/merchandisexinxi")
-//    public String merchandisexinxiselect(@RequestParam("merchanname")String merchanname,Model model){
-//        List<Map<String,Object>> merchaninfolist = null;
-//        try {
-//            byte[] bb = merchanname.getBytes("ISO-8859-1");
-//            merchanname=new String(bb,"UTF-8");
-//            merchaninfolist = toolsDao.selecmerchan(merchanname);
-//            model.addAttribute("merchandiseall",merchaninfolist);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        return "/shinowit/index";
-//    }
-
     @RequestMapping("/index")
     public String indexshow(@ModelAttribute("merchan")TmeMerchandiseinfo merchandiseinfo,Model model,@RequestParam(value = "pageindex",required = false) Integer pageIndex,@RequestParam(value = "merchanname",required = false)String merchanname){
         //商品类别查询
@@ -87,6 +73,7 @@ public class IndexController {
         tj3.andMerchandiseidIsNotNull();
         int merchandisetoalnum = merchandisedao.selectByExample(criteria3).size();//商品信息的总数
         int pagesumnum=0;
+        //这个是首页的展示就是在没有进行商品信息查询的时候进行的
         if(merchanname==null) {
             if (pageIndex == null) {
                 pageIndex = 1;
@@ -98,7 +85,7 @@ public class IndexController {
                 criteria3.setPageIndex(pageIndex);
                 criteria3.setPageSize(pageSize);
                 merchaninfolist = merchandisedao.selectPage(criteria3);
-            } else {
+            } else {//这里是有了上下页参数或者跳转的时候
                 int pageSize = 4;
                 pagesumnum = merchandisetoalnum / pageSize;
                 if (merchandisetoalnum % pageSize != 0) {
@@ -108,13 +95,13 @@ public class IndexController {
                 criteria3.setPageSize(pageSize);
                 merchaninfolist = merchandisedao.selectPage(criteria3);
             }
-        }else{
+        }else{//这里是在进行商品信息的模糊查询之后的战士
             List<Map<String,Object>> merchaninfolist1 = null;
             try {
                 int pageSize=4;
                 byte[] bb = merchanname.getBytes("ISO-8859-1");
                 merchanname=new String(bb,"UTF-8");
-                if(pageIndex==null) {
+                if(pageIndex==null) {//同样的这里还是需要判断当前页是否为空
                     pageIndex = 1;
                     merchaninfolist1 = toolsDao.pageselecmerchan(merchanname, pageSize, pageIndex);
                     int merchandisetoalnum1 = toolsDao.selecmerchan(merchanname).size();
@@ -124,10 +111,10 @@ public class IndexController {
                     }
                     model.addAttribute("pagesumnum", pagesumnum2);
                     model.addAttribute("pageIndex", pageIndex);
-                    model.addAttribute("merchanname",merchanname);
+                    model.addAttribute("merchanname",merchanname);//这里是在进行模糊查询的时候要附带的参数如果不将它还给前台那么在进行下一页或者页面跳转的时候会返回首页查询
                     model.addAttribute("merchandiseall", merchaninfolist1);
                     model.addAttribute("merchandisetoalnum", merchandisetoalnum1);
-                }else{
+                }else{//这里是在触发了上下页的时间的时候进行的分页查询
                     merchaninfolist1 = toolsDao.pageselecmerchan(merchanname, pageSize, pageIndex);
                     int merchandisetoalnum1 = toolsDao.selecmerchan(merchanname).size();
                     int pagesumnum2 = merchandisetoalnum1 / pageSize;
