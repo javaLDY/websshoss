@@ -98,6 +98,10 @@
                           identity="true" />
         </table>
 
+        <table tableName="chart">
+            <generatedKey column="chartid" sqlStatement="SqlServer" identity="true"/>
+        </table>
+
     </context>
 </generatorConfiguration>
 
