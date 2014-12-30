@@ -85,7 +85,7 @@
                 <DIV class="bxSty"><!--Product-->
                     <table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tabSty01" id="shoppingCatTable">
                         <tr class="trSty01" bgcolor="#7a7f89">
-                            <td align="center" height="32">勾选</td>
+                            <td align="center" height="32"><input type="checkbox"  style="height: 20px;width: 20px" id="firstcheckboxid" class="checkboxid" />勾选</td>
                             <td align="center" height="32">商品</td>
                             <td align="center" height="32">名称</td>
                             <td align="center" height="32">单价</td>
@@ -95,10 +95,10 @@
                         </tr>
                         <c:forEach items="${modellist}" var="chart">
                         <tr>
-                            <td align="center"><input type="checkbox" width="50" height="50" style="height: 30px;width: 30px" id="checkboxid" class="checkboxid" /></td>
+                            <td align="center"><input type="checkbox"  style="height: 20px;width: 20px" id="checkboxid" class="checkboxid" /></td>
                             <td width="160" height="170" align="center" valign="middle"><span class="imgw"><a href="#" target="_blank"><img src="${ctx}/${chart.picth}" alt="带帽水洗收腰休闲夹克 灰色" border="0" width="160" height="170" /></a></span></td>
                             <td><a href="#" target="_blank"><span class="STYLE5">${chart.merchandisename}</span></a></td>
-                            <td align="center">￥<span id="00072650" data="${chart.price}">${chart.price}</span></td>
+                            <td align="center">￥<span id="00072650" class="00072650" data="${chart.price}">${chart.price}</span></td>
                             <td align="center"><input name="OrderAmount_2" id="OrderAmount_2" maxlength="3" onchange="changeSuccess=false;EditProductCount('00072650','1',this)" onkeypress=" if((arguments[0] || window.event).keyCode==13){this.blur(); return false;}" style="width: 20px; height: 15px; color: rgb(75, 75, 75);" value="${chart.num}" type="text" /></td>
                             <td align="center">￥<span id="Pdt_price">${chart.smallsum}</span></td>
                             <td align="center"><a href="javascript:DeleteProduct('00072650',1);">删除</a></td>

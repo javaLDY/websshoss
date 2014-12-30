@@ -66,6 +66,16 @@
             $("#numaddid").mouseup(function(){
                 $("#numaddid").css("background","lightgrey")
             })
+            $("#jianid").mousedown(function(){
+                $("#numid").val(parseInt($("#numid").val())-1);
+                if(parseInt($("#numid").val())<1){
+                    parseInt($("#numid").val(1))
+                }
+                $("#jianid").css("background","gray")
+            })
+            $("#jianid").mouseup(function(){
+                $("#jianid").css("background","lightgrey")
+            })
         });
 
     </script>
@@ -183,7 +193,7 @@
                     <tr>
                         <td valign="center" align="middle" width="162" height="28">数 量：</td>
                         <td valign="center" width="162" align="middle"
-                            height="28"><input id="numid" value="1" style="width: 29px;text-align: center"/><img id="numaddid" style="width: 20px;height: 19px;background: lightgrey;cursor: pointer" src="<%=request.getContextPath()%>/images/numadd.png"/></td>
+                            height="28"><img id="jianid" style="width: 20px;height: 19px;background: lightgrey;cursor: pointer" src="<%=request.getContextPath()%>/images/jian.png"/><input id="numid" value="1" style="width: 29px;text-align: center" readonly="readonly"/><img id="numaddid" style="width: 20px;height: 19px;background: lightgrey;cursor: pointer" src="<%=request.getContextPath()%>/images/numadd.png"/></td>
                     </tr>
                     <tr>
                         <td valign="center" align="middle" width="111" height="5"><img id="gouwucheid"  src="<%=request.getContextPath()%>/images/vivioow_b3.jpg" height="35" style="cursor: pointer"/></td>
