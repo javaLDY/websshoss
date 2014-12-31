@@ -13,6 +13,8 @@
     <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/LoginAndReg.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/gmxx.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/chart1.js"></script>
 </head>
 
 <body>
@@ -75,8 +77,8 @@
                 <DIV class="pointErrorMsg">您目前的积分为：<SPAN id="myPointNumber">0</SPAN>分，本次购物需支付：<SPAN
                         id="needPointNumber">0</SPAN>分，请修改购物车中的积分换购产品。</DIV><IMG id="imgPointError"
                                                                                  src="<%=request.getContextPath()%>/images/jifenbuzhu.gif" useMap=#Map border=0> <MAP id="Map"
-                                                                                                                                        name=Map><AREA shape=RECT coords=962,9,972,19
-                                                                                                                                                       href="javascript:ClosePointError();"></MAP></DIV>
+                                                                                                                                                                      name=Map><AREA shape=RECT coords=962,9,972,19
+                                                                                                                                                                                     href="javascript:ClosePointError();"></MAP></DIV>
             <DIV id=OffProductList></DIV>
             <TABLE cellSpacing=0 cellPadding=0 width=100% border=0>
                 <TBODY>
@@ -93,19 +95,21 @@
                 <td class="reusableColor5 xxSty01" align="left" height="30">&nbsp;&nbsp;&nbsp;&nbsp;<strong>地址簿 </strong>（您以前用过的地址）</td>
             </tr>
             <tr>
-                <td align="left" valign="top" height="145"><div class="changeAdd" align="center">
-                    <ul class="ulSty">
-                        <li>收  货  人：刘德华<br />
-                            地　　区：河北生唐山市火车站<br />
-                            收货地址:河北生唐山市火车站<br />
-                            邮政编码：063000<br />
-                            固定电话：<br />
-                            移动电话：138********<br />
-                            <span class="addDeleteSty addFontCol"><a href="#"><span class="addFontCol">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol">删除</span></a></span><span class="addSpanSty"><a href="chart02.html"><img src="<%=request.getContextPath()%>/images/button_pszADd.gif" border="0" onclick="#" /></a></span></li>
-                        <li class="liSty"></li>
-                    </ul>
-                    <div style="height:25px!important;color:#fff;">dddddddddddd</div>
+                <td align="left" valign="top" height="145">
+                    <div class="changeAdd" align="center">
+                    <span style="font-size: 12px;float: left;width: 950px;margin-left: -86;" id="uniquespanid">
+                         <input type="checkbox" style="width: 15px;height: 15px;float: left;margin: 3px -38px 0 19px;" id="newaddressid"/>
+                        收货人：刘德华地区：河北生唐山市火车站收货地址:河北生唐山市火车站邮政编码：063000固定电话：移动电话：138********
+                            <span class="addDeleteSty addFontCol" style="float: right;padding: 0px 0px 21px 0px"><a href="#"><span class="addFontCol">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol">删除</span></a></span><span class="addSpanSty"></span>
+                    </span><br>
+                    <span style="font-size: 12px;float: left;width: 950px;margin-left: -86;">
+                         <input type="checkbox" style="width: 15px;height: 15px;float: left;margin: 3px -38px 0 19px;" id="newaddressid1"/>
+                        收货人：刘德华地区：河北生唐山市火车站收货地址:河北生唐山市火车站邮政编码：063000固定电话：移动电话：138********
+                            <span class="addDeleteSty addFontCol" style="float: right;padding: 0px 0px 21px 0px"><a href="#"><span class="addFontCol">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol">删除</span></a></span><span class="addSpanSty"></span>
+                    </span>
+
                 </div>
+                    <%--<a href="chart02.html" style="margin : 0 0 14px 0"><img src="<%=request.getContextPath()%>/images/button_pszADd.gif" border="0" onclick="#" /></a>--%>
                     <div id="edit">
                         <div class="bxSty1">
                             <table class="tabSty01" border="0" cellpadding="0" cellspacing="0" width="100%">

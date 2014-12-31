@@ -151,7 +151,7 @@ ssssssssss<br />
                     <dt><a href="${ctx}/shinowit/innerpage?merchanname=${merchandisea.merchandisename}" target="_new"><img src=${ctx}/${merchandisea.picpath} width="130" height="130" border="0" /></a></dt>
                     <dd style="color: yellowgreen;text-align: center">|${merchandisea.merchandisename}|￥${merchandisea.price}|</dd>
                     <dd  style="visibility:hidden" id="unique4">${merchanname}</dd>
-                    <dd><span class="viv2"><a href="${ctx}/shinowit/innerpage?merchanname=${merchandisea.merchandisename}" target="_new"><img src="<%=request.getContextPath()%>/images/vivioow_b2.jpg" width="80" height="24" border="0" style="margin-left: 40px" /></a></span></dd>
+                    <dd><span class="viv2"><a href="${ctx}/shinowit/innerpage?merchanname=${merchandisea.merchandisename}" target="_new"><img src="<%=request.getContextPath()%>/images/dianjichakan.jpg" width="80" height="24" border="0" style="margin-left: 40px" /></a></span></dd>
                 </dl>
                 </c:forEach>
                 <br class="spacer" />

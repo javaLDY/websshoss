@@ -1,5 +1,7 @@
 package com.shinowit.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shinowit.dao.mapper.ChartMapper;
 import com.shinowit.dao.mapper.ToolsDao;
 import com.shinowit.entity.Chart;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -118,10 +121,16 @@ public class ChartCarController {
     }
 
     @RequestMapping("/deleteall")
-
-    public String deleteaa(HttpServletRequest request,@RequestParam(value = "arrayid",required = false)String arrayid){
-        String sss = request.getParameter("arrayid");
-        System.out.println(arrayid);
+    public String deleteaa(String jsonData){
+        try {
+            ObjectMapper objectMapper = new  ObjectMapper();
+            List<Chart> chartList= objectMapper.readValue(jsonData, new TypeReference<List<Chart>>(){});
+            for (Chart chart:chartList){
+                chartdao.deleteByPrimaryKey(chart.getChartid());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/shinowit/chart";
     }
 }

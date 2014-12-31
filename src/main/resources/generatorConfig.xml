@@ -55,8 +55,8 @@
         </table>
 
         <table tableName="TBa_MemberInfo">
-            <!--<generatedKey column="teacher_id" sqlStatement="MySql"-->
-                          <!--identity="true" />-->
+            <generatedKey column="ID" sqlStatement="SqlServer"
+                          identity="true" />
         </table>
 
         <table tableName="TMe_MerchandiseCInfo">
