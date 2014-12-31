@@ -19,30 +19,29 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/index.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-           $(".uniqueid").click(function(){
-               $.ajax({
-                   type:"get",
-                   url:"<%=request.getContextPath()%>/shinowit/merchandise",
-                   data:{merchanCid:$(this).attr("data")},
-                   contendType:"application/json",
-                   success : function(msg){
-                       var newdata="";
-                       for(var a= 0;a<msg.length;a++){
-                           newdata +=
-                           "<ul>"+
-                           "<li><a class='uniqueid' href='${ctx}/shinowit/index' data="+msg[a].merchandiseid+">"+msg[a].merchandisename+"</a></li>"+
-                           "</ul>"
-                       }
-                       document.getElementById("uniqueid2").innerHTML=newdata;
-                       //$("#uniqueid2").innerHTML=newdata
-                   },
-                   error : function(){
-                       alert("数据加载失败")
-                   }
-               })
-           });
-        });
+        <%--$(document).ready(function(){--%>
+           <%--$(".uniqueid").click(function(){--%>
+               <%--$.ajax({--%>
+                   <%--type:"get",--%>
+                   <%--url:"<%=request.getContextPath()%>/shinowit/merchandise",--%>
+                   <%--data:{merchanCid:$(this).attr("data")},--%>
+                   <%--contendType:"application/json",--%>
+                   <%--success : function(msg){--%>
+                       <%--var newdata="";--%>
+                       <%--for(var a= 0;a<msg.length;a++){--%>
+                           <%--newdata +=--%>
+                           <%--"<ul>"+--%>
+                           <%--"<li><a class='uniqueid' href='${ctx}/shinowit/index' data="+msg[a].merchandiseid+">"+msg[a].merchandisename+"</a></li>"+--%>
+                           <%--"</ul>"--%>
+                       <%--}--%>
+                       <%--document.getElementById("uniqueid2").innerHTML=newdata;--%>
+                   <%--},--%>
+                   <%--error : function(){--%>
+                       <%--alert("数据加载失败")--%>
+                   <%--}--%>
+               <%--})--%>
+           <%--});--%>
+        <%--});--%>
     </script>
 </head>
 
@@ -119,7 +118,7 @@
                 <%--<form action="${ctx}/shinowit/merchanCinfo" method="get">--%>
                 <c:forEach items="${merchanCinfo}" var="merchanC">
                 <ul>
-                    <li><a class="uniqueid"  data="${merchanC.merchandisecid}">${merchanC.merchandisecname}</a></li>
+                    <li><a class="uniqueid"  href="<%=request.getContextPath()%>/shinowit/index?merchanCid=${merchanC.merchandisecid}"  data="${merchanC.merchandisecid}">${merchanC.merchandisecname}</a></li>
                 </ul>
                 </c:forEach>
                 <%--</form>--%>
@@ -162,7 +161,7 @@ ssssssssss<br />
         <!--mid end -->
         <br class="spacer" />
         <div class="page" style="text-align: center;border: 1px solid yellowgreen;background:yellowgreen ">
-            <img id="tiaojian2" src="<%=request.getContextPath()%>/images/jiantou1.png" style="cursor: pointer"/>&nbsp;共 ${merchandisetoalnum} 个商品 | 分 ${pagesumnum} 页显示 | 当前第 ${pageIndex} 页 | <input type="text" id="inputpageto" style="width: 35px"/>&nbsp;<button id="pageto" style="width: 30px;background: yellowgreen" type="button">go</button>&nbsp;<img id="tiaojian1" src="<%=request.getContextPath()%>/images/jiantou2.png" style="cursor: pointer"/>
+            <img id="tiaojian2" src="<%=request.getContextPath()%>/images/jiantou1.png" style="cursor: pointer"/>&nbsp;共 ${merchandisetoalnum} 个商品 | 分 ${pagesumnum} 页显示 | 当前第 ${pageIndex} 页 | <input type="text" id="inputpageto" style="width: 35px"/>&nbsp;<button id="pageto" style="width: 30px;background: yellowgreen;cursor: pointer" type="button">go</button>&nbsp;<img id="tiaojian1" src="<%=request.getContextPath()%>/images/jiantou2.png" style="cursor: pointer"/>
         </div>
     </div>
     </form:form>

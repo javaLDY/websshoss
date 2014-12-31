@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -108,5 +109,19 @@ public class ChartCarController {
             model.addAttribute("pagetotalnum",pagetotalnum);
         }
         return "chart";
+    }
+
+    @RequestMapping("/delete")
+    public String deletechart(@RequestParam("chartid") Integer chartid){
+        int a = chartdao.deleteByPrimaryKey(chartid);
+        return "redirect:/shinowit/chart";
+    }
+
+    @RequestMapping("/deleteall")
+
+    public String deleteaa(HttpServletRequest request,@RequestParam(value = "arrayid",required = false)String arrayid){
+        String sss = request.getParameter("arrayid");
+        System.out.println(arrayid);
+        return "redirect:/shinowit/chart";
     }
 }

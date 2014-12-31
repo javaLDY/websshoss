@@ -39,20 +39,20 @@ public class IndexController {
     @Resource
     private ToolsDao toolsDao;
 
-    @RequestMapping("/merchandise")
-    @ResponseBody
-    public List<TmeMerchandiseinfo> merchandiseselect(@RequestParam("merchanCid")String merCid){
-        List<TmeMerchandiseinfo> merchaninfolist = null;
-        TmeMerchandiseinfoCriteria criteria1 = new TmeMerchandiseinfoCriteria();
-        TmeMerchandiseinfoCriteria.Criteria tj2 = criteria1.createCriteria();
-        tj2.andMerchandisecidEqualTo(Integer.valueOf(merCid));
-        tj2.andSalestatusEqualTo(true);
-        merchaninfolist = merchandisedao.selectByExample(criteria1);
-        return merchaninfolist;
-    }
+//    @RequestMapping("/merchandise")
+//    public String merchandiseselect(@RequestParam("merchanCid")String merCid,Model model){
+//        List<TmeMerchandiseinfo> merchaninfolist = null;
+//        TmeMerchandiseinfoCriteria criteria1 = new TmeMerchandiseinfoCriteria();
+//        TmeMerchandiseinfoCriteria.Criteria tj2 = criteria1.createCriteria();
+//        tj2.andMerchandisecidEqualTo(Integer.valueOf(merCid));
+//        tj2.andSalestatusEqualTo(true);
+//        merchaninfolist = merchandisedao.selectByExample(criteria1);
+//        model.addAttribute("merchandise",merchaninfolist);
+//        return "redirect:/shinowit/index";
+//    }
 
     @RequestMapping("/index")
-    public String indexshow(@ModelAttribute("merchan")TmeMerchandiseinfo merchandiseinfo,Model model,@RequestParam(value = "pageindex",required = false) Integer pageIndex,@RequestParam(value = "merchanname",required = false)String merchanname){
+    public String indexshow(@ModelAttribute("merchan")TmeMerchandiseinfo merchandiseinfo,Model model,@RequestParam(value = "merchanCid",required = false)String merCid,@RequestParam(value = "pageindex",required = false) Integer pageIndex,@RequestParam(value = "merchanname",required = false)String merchanname){
         //商品类别查询
         List<TmeMerchandisecinfo> merchaninfoclist = new ArrayList<TmeMerchandisecinfo>();
         TmeMerchandisecinfoCriteria criteria = new TmeMerchandisecinfoCriteria();
@@ -62,11 +62,20 @@ public class IndexController {
         model.addAttribute("merchanCinfo", merchaninfoclist);
         //商品上架是否查询
         List<TmeMerchandiseinfo> merchaninfolist = null;
-        TmeMerchandiseinfoCriteria criteria1 = new TmeMerchandiseinfoCriteria();
-        TmeMerchandiseinfoCriteria.Criteria tj1 = criteria1.createCriteria();
-        tj1.andSalestatusEqualTo(true);
-        merchaninfolist = merchandisedao.selectByExample(criteria1);
-        model.addAttribute("merchandise",merchaninfolist);
+        if(merCid==null){
+            TmeMerchandiseinfoCriteria criteria1 = new TmeMerchandiseinfoCriteria();
+            TmeMerchandiseinfoCriteria.Criteria tj1 = criteria1.createCriteria();
+            tj1.andSalestatusEqualTo(true);
+            merchaninfolist = merchandisedao.selectByExample(criteria1);
+            model.addAttribute("merchandise",merchaninfolist);
+        }else{
+            TmeMerchandiseinfoCriteria criteria1 = new TmeMerchandiseinfoCriteria();
+            TmeMerchandiseinfoCriteria.Criteria tj2 = criteria1.createCriteria();
+            tj2.andMerchandisecidEqualTo(Integer.valueOf(merCid));
+            tj2.andSalestatusEqualTo(true);
+            merchaninfolist = merchandisedao.selectByExample(criteria1);
+            model.addAttribute("merchandise",merchaninfolist);
+        }
         //商品分页展示
         TmeMerchandiseinfoCriteria criteria3 = new TmeMerchandiseinfoCriteria();
         TmeMerchandiseinfoCriteria.Criteria tj3 = criteria3.createCriteria();

@@ -15,8 +15,10 @@
     <link href="<%=request.getContextPath()%>/css/LoginAndReg.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/gmxx.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">var pageindex = '${pageindex}'</script>
-    <script type="text/javascript">var pagesumnum = '${sumnum}'</script>
+    <script type="text/javascript">var pagesumnum = '${pagetotalnum}'</script>
+    <script type="text/javascript">var _path = '${ctx}'</script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.json.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/chart.js"></script>
 </head>
 
@@ -85,7 +87,7 @@
                 <DIV class="bxSty"><!--Product-->
                     <table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tabSty01" id="shoppingCatTable">
                         <tr class="trSty01" bgcolor="#7a7f89">
-                            <td align="center" height="32"><input type="checkbox"  style="height: 20px;width: 20px" id="firstcheckboxid" class="checkboxid" />勾选</td>
+                            <td align="center" height="32"><input type="checkbox" money="0.00"  style="height: 20px;width: 20px" id="firstcheckboxid"  />勾选</td>
                             <td align="center" height="32">商品</td>
                             <td align="center" height="32">名称</td>
                             <td align="center" height="32">单价</td>
@@ -94,14 +96,14 @@
                             <td align="center">操作</td>
                         </tr>
                         <c:forEach items="${modellist}" var="chart">
-                        <tr>
-                            <td align="center"><input type="checkbox"  style="height: 20px;width: 20px" id="checkboxid" class="checkboxid" /></td>
+                        <tr id="uniquetrid">
+                            <td align="center"><input type="checkbox" money="${chart.smallsum}" style="height: 20px;width: 20px" id="checkboxid${chart.chartid}" newid="${chart.chartid}" class="checkboxid" onclick="return singlecheck(${chart.chartid})"/></td>
                             <td width="160" height="170" align="center" valign="middle"><span class="imgw"><a href="#" target="_blank"><img src="${ctx}/${chart.picth}" alt="带帽水洗收腰休闲夹克 灰色" border="0" width="160" height="170" /></a></span></td>
                             <td><a href="#" target="_blank"><span class="STYLE5">${chart.merchandisename}</span></a></td>
-                            <td align="center">￥<span id="00072650" class="00072650" data="${chart.price}">${chart.price}</span></td>
-                            <td align="center"><input name="OrderAmount_2" id="OrderAmount_2" maxlength="3" onchange="changeSuccess=false;EditProductCount('00072650','1',this)" onkeypress=" if((arguments[0] || window.event).keyCode==13){this.blur(); return false;}" style="width: 20px; height: 15px; color: rgb(75, 75, 75);" value="${chart.num}" type="text" /></td>
+                            <td align="center">￥<span id="00072650${chart.chartid}" class="00072650" data="${chart.price}">${chart.price}</span></td>
+                            <td align="center"><img id="jianid${chart.chartid}" class="jianid" style="width: 20px;height: 19px;background: lightgrey;cursor: pointer" src="<%=request.getContextPath()%>/images/jian.png"  onmousedown="mousedown(${chart.chartid})"/><input name="OrderAmount_2" id="OrderAmount_2${chart.chartid}" maxlength="3"  style="border:2px gray solid;width: 20px; height: 19px; color: rgb(75, 75, 75);text-align: center" onchange="inputblur(${chart.chartid})" value="${chart.num}" type="text" /><img id="numaddid${chart.chartid}" onmousedown="mousedown1(${chart.chartid})"  class="numaddid" style="width: 20px;height: 19px;background: lightgrey;cursor: pointer; " src="<%=request.getContextPath()%>/images/numadd.png"/></td>
                             <td align="center">￥<span id="Pdt_price">${chart.smallsum}</span></td>
-                            <td align="center"><a href="javascript:DeleteProduct('00072650',1);">删除</a></td>
+                            <td align="center"><a href="${ctx}/shinowit/delete?chartid=${chart.chartid}">删除</a></td>
                         </tr>
                         </c:forEach>
                     </table>
@@ -125,7 +127,7 @@
                                     href="#"><IMG
                                     src="<%=request.getContextPath()%>/images/pic_gwc__r10_c3.jpg" alt=继续购物 width=95 height=25 border="0"></A><A
                                     href="#">&nbsp;<IMG
-                                    src="<%=request.getContextPath()%>/images/pic_gwc__r10_c8.jpg" alt=清空购物车 width=95 height=25 border="0" class="jl02"></A></TD>
+                                    src="<%=request.getContextPath()%>/images/pic_gwc__r10_c8.jpg" alt=清空购物车 width=95 height=25 border="0" class="jl02" id="jl02"></A></TD>
                             <TD align=left>&nbsp;</TD>
                             <TD align=middle>&nbsp;</TD>
                             <TD class="tdSty04" vAlign=top align=right colSpan=3><A

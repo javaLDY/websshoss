@@ -32,7 +32,6 @@
                                     "</ul>"
                         }
                         document.getElementById("uniqueid2").innerHTML=newdata;
-                        //$("#uniqueid2").innerHTML=newdata
                     },
                     error : function(){
                         alert("数据加载失败")

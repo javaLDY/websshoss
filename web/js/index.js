@@ -1,4 +1,17 @@
 $(document).ready(function(){
+    $("#tiaojian1").mousedown(function(){
+        $("#tiaojian1").css("background","green");
+    });
+    $("#tiaojian1").mouseup(function(){
+        $("#tiaojian1").css("background","yellowgreen");
+    });
+    $("#tiaojian2").mousedown(function(){
+        $("#tiaojian2").css("background","green");
+    });
+    $("#tiaojian2").mouseup(function(){
+        $("#tiaojian2").css("background","yellowgreen");
+    });
+
     $("#tiaojian1").click(function(){
         var newpageindex = parseInt(pageindex)+1;
         var newpagesum = parseInt(pagesumnum);
