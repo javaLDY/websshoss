@@ -1,5 +1,6 @@
 package com.shinowit.dao.mapper;
 
+import com.shinowit.entity.TbaMembeaddrinfo;
 import com.shinowit.entity.TbaMemberinfo;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -71,4 +72,14 @@ public class ToolsDao {
         result = jt.queryForList(sql,new Object[]{},new int[]{});
         return result;
     }
+    //发货信息更改
+     public boolean updatemeradd(TbaMembeaddrinfo meradd){
+         boolean result = false;
+         String sql = "update TBa_MembeAddrInfo set RecMan=?,RecAddress=?,PostCode=?,Tel=? where ID=?";
+         int a = jt.update(sql,new Object[]{meradd.getRecman(),meradd.getRecaddress(),meradd.getPostcode(),meradd.getTel(),meradd.getId()},new int[]{Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.INTEGER});
+         if(a>0){
+             result = true;
+         }
+         return result;
+     }
 }

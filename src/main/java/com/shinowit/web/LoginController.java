@@ -58,8 +58,13 @@ public class LoginController {
         TbaMemberinfoCriteria.Criteria tj = criteria.createCriteria();
         tj.andEmailEqualTo(memebr.getEmail());
         List<TbaMemberinfo> memberlist = memberdao.selectByExample(criteria);
+        String loginname = null;
+        for(TbaMemberinfo mer : memberlist){
+            loginname = mer.getUsername();
+        }
         if(memberlist.size()>0){
-            return "/index";
+            request.getSession().setAttribute("loginame",loginname);
+            return "redirect:/shinowit/index";
         }else{
             return "/login";
         }

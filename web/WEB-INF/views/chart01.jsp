@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -13,13 +15,24 @@
     <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/LoginAndReg.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/gmxx.css" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath()%>/css/colorbox.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.colorbox.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/chart1.js"></script>
+    <script type="text/javascript">var _path = '${ctx}'</script>
+    <script type="text/javascript">
+        <%
+            String loginname = (String)session.getAttribute("loginame");
+
+        %>
+    </script>
 </head>
 
 <body>
 <div id="box">
+<%--alert('${failure}')--%>
 <!--top start -->
+
 <div id="top">
     <a href="${ctx}/shinowit/index"><img src="<%=request.getContextPath()%>/images/logo.gif" alt="Estimation" width="255" height="58" border="0" class="logo" /></a>
     <p class="topDiv"></p>
@@ -97,18 +110,15 @@
             <tr>
                 <td align="left" valign="top" height="145">
                     <div class="changeAdd" align="center">
+                        <c:forEach items="${memberaddlist}" var="meradd">
                     <span style="font-size: 12px;float: left;width: 950px;margin-left: -86;" id="uniquespanid">
                          <input type="checkbox" style="width: 15px;height: 15px;float: left;margin: 3px -38px 0 19px;" id="newaddressid"/>
-                        收货人：刘德华地区：河北生唐山市火车站收货地址:河北生唐山市火车站邮政编码：063000固定电话：移动电话：138********
-                            <span class="addDeleteSty addFontCol" style="float: right;padding: 0px 0px 21px 0px"><a href="#"><span class="addFontCol">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol">删除</span></a></span><span class="addSpanSty"></span>
+                        <label style="color: cornflowerblue">收货人:</label>${meradd.recman}| <label style="color: cornflowerblue">收货地址:</label>${meradd.recaddress}| <label style="color: cornflowerblue">邮政编码:</label>${meradd.postcode}|<label style="color: cornflowerblue">固定电话:${meradd.tel}</label> <label style="color: cornflowerblue">移动电话:</label>${meradd.tel}
+                            <span class="addDeleteSty addFontCol" style="float: right;padding: 0px 0px 21px 0px"><a href="#"><span id="addFontCol" class="addFontCol" onclick="updateclick(${meradd.id},'${meradd.recman}','${meradd.recaddress}','${meradd.postcode}','${meradd.tel}')">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol" id="deleteFontCol${meradd.id}" onclick="deletemeradd(${meradd.id})">删除</span></a></span><span class="addSpanSty"></span>
                     </span><br>
-                    <span style="font-size: 12px;float: left;width: 950px;margin-left: -86;">
-                         <input type="checkbox" style="width: 15px;height: 15px;float: left;margin: 3px -38px 0 19px;" id="newaddressid1"/>
-                        收货人：刘德华地区：河北生唐山市火车站收货地址:河北生唐山市火车站邮政编码：063000固定电话：移动电话：138********
-                            <span class="addDeleteSty addFontCol" style="float: right;padding: 0px 0px 21px 0px"><a href="#"><span class="addFontCol">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol">删除</span></a></span><span class="addSpanSty"></span>
-                    </span>
+                        </c:forEach>
 
-                </div>
+                    </div>
                     <%--<a href="chart02.html" style="margin : 0 0 14px 0"><img src="<%=request.getContextPath()%>/images/button_pszADd.gif" border="0" onclick="#" /></a>--%>
                     <div id="edit">
                         <div class="bxSty1">
@@ -119,94 +129,97 @@
                                 </tr>
                                 <tr>
                                     <td align="center" valign="top">
-                                        <ul class="psAdd" align="left">
-                                            <li>
-                                                <p class="pSty01" align="right">收货人姓名：</p>
-                                                <p class="pSty02 reusableColor3" align="left">
-                                                    <input name="Name" id="Name" size="22" onchange="ChecktheForm_Name()" type="text" />
-                                                    &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp;
-                                                    请准确填写真实姓名，以便确保商品准确无误送达。</p>
-                                            </li>
-                                            <li class="conLi1"><span class="errorstring" id="errorName"></span></li>
-                                            <li>
-                                                <p class="pSty01" align="right">配送省份/直辖市：</p>
-                                                <p>
-                                                    <select id="ProvinceID" name="ProvinceID" onchange="ShowCity(this.options[selectedIndex].text);CheckProvince()">
-                                                        <option selected="selected" value="">--请选择--</option>
-                                                        <option value="%e5%8c%97%e4%ba%ac">北京</option>
-                                                        <option value="%e5%a4%a9%e6%b4%a5">天津</option>
-                                                        <option value="%e6%b2%b3%e5%8c%97">河北</option>
-                                                        <option value="%e5%b1%b1%e8%a5%bf">山西</option>
-                                                        <option value="%e5%86%85%e8%92%99%e5%8f%a4">内蒙古</option>
-                                                        <option value="%e8%be%bd%e5%ae%81">辽宁</option>
-                                                        <option value="%e5%90%89%e6%9e%97">吉林</option>
-                                                        <option value="%e9%bb%91%e9%be%99%e6%b1%9f">黑龙江</option>
-                                                        <option value="%e4%b8%8a%e6%b5%b7">上海</option>
-                                                        <option value="%e6%b1%9f%e8%8b%8f">江苏</option>
-                                                        <option value="%e6%b5%99%e6%b1%9f">浙江</option>
-                                                        <option value="%e5%ae%89%e5%be%bd">安徽</option>
-                                                        <option value="%e7%a6%8f%e5%bb%ba">福建</option>
-                                                        <option value="%e6%b1%9f%e8%a5%bf">江西</option>
-                                                        <option value="%e5%b1%b1%e4%b8%9c">山东</option>
-                                                        <option value="%e6%b2%b3%e5%8d%97">河南</option>
-                                                        <option value="%e6%b9%96%e5%8c%97">湖北</option>
-                                                        <option value="%e6%b9%96%e5%8d%97">湖南</option>
-                                                        <option value="%e5%b9%bf%e4%b8%9c">广东</option>
-                                                        <option value="%e5%b9%bf%e8%a5%bf">广西</option>
-                                                        <option value="%e6%b5%b7%e5%8d%97">海南</option>
-                                                        <option value="%e9%87%8d%e5%ba%86">重庆</option>
-                                                        <option value="%e5%9b%9b%e5%b7%9d">四川</option>
-                                                        <option value="%e8%b4%b5%e5%b7%9e">贵州</option>
-                                                        <option value="%e4%ba%91%e5%8d%97">云南</option>
-                                                        <option value="%e8%a5%bf%e8%97%8f">西藏</option>
-                                                        <option value="%e9%99%95%e8%a5%bf">陕西</option>
-                                                        <option value="%e7%94%98%e8%82%83">甘肃</option>
-                                                        <option value="%e9%9d%92%e6%b5%b7">青海</option>
-                                                        <option value="%e5%ae%81%e5%a4%8f">宁夏</option>
-                                                        <option value="%e6%96%b0%e7%96%86">新疆</option>
-                                                    </select>
-                                                    &nbsp;&nbsp;市：
-                                                    <select id="CityID" name="CityID" onchange="ShowArea(this.options[selectedIndex].text);CheckCity()">
-                                                        <option selected="selected" value="">--请选择--</option>
-                                                    </select>
-                                                    &nbsp;&nbsp;县/区：
-                                                    <select id="AreaID" name="AreaID" onchange="GetPostalCodeNew(this.options[this.selectedIndex].text,'CityID','ProvinceID'),ShowV(this.options[this.selectedIndex].text);CheckArea()">
-                                                        <option selected="selected" value="">--请选择--</option>
-                                                    </select>
-                                                    &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp; </p>
-                                            </li>
-                                            <li class="conLi2"><span id="errorArea"></span></li>
-                                            <li>
-                                                <p class="pSty01" align="right">详细地址：</p>
-                                                <p class="pSty02">
-                                                    <input name="Address" id="Address" size="40" onchange="ChecktheForm_Address()" maxlength="500" type="text" />
-                                                    &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp; <br />
-                                                    <span class="fontSty reusableColor3">862城市送货上门，货到付款。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="reusableColor1"><a href="#" target="_blank"> 查看详细的配送范围 </a></span></span> </p>
-                                            </li>
-                                            <li class="conLi3"><span id="errorAddress" class="errorstring"></span></li>
-                                            <li>
-                                                <p class="pSty01" align="right">邮政编码：</p>
-                                                <p class="pSty02 reusableColor3">
-                                                    <input name="Zip" id="Zip" size="7" onchange="ChecktheForm_Zip()" type="text" />
-                                                    &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp; <span id="SetPostalCode"></span> </p>
-                                            </li>
-                                            <li class="conLi4"><span id="errorPostal" class="errorstring"></span></li>
-                                            <li>
-                                                <p class="pSty01" align="right">固定电话：</p>
-                                                <p class="pSty02">
-                                                    <input name="Tel" id="Tel" onchange="ChecktheForm_Tel()" size="12" type="text" />
-                                                    <span id="PhoneCode"></span> </p>
-                                            </li>
-                                            <li class="conLi5"><span id="errorPhone" class="errorstring"></span></li>
-                                            <li>
-                                                <p class="pSty01" align="right">手机：</p>
-                                                <p class="pSty02 reusableColor3">
-                                                    <input name="Mobile" id="Mobile" size="22" onchange="ChecktheForm_Tel()" type="text" />
-                                                    手机与固定电话至少有一项必填 </p>
-                                            </li>
-                                            <li class="conLi6"><span id="errorMobile"></span></li>
-                                            <li class="conLi7"><span class="addSpanSty"><a href="${ctx}/shinowit/chart02"><img src="<%=request.getContextPath()%>/images/button_pszADd.gif" alt="" border="0" onclick="#" /></a></span></li>
-                                        </ul></td>
+                                        <form:form action="${ctx}/shinowit/chart01" modelAttribute="merxadd" method="post">
+                                            <ul class="psAdd" align="left">
+                                                <li>
+                                                    <p class="pSty01" align="right">收货人姓名：</p>
+                                                    <p class="pSty02 reusableColor3" align="left">
+                                                        <form:input path="recman" id="Name" ></form:input>
+                                                        &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp;
+                                                        请准确填写真实姓名，以便确保商品准确无误送达。</p>
+                                                </li>
+                                                <li class="conLi1"><span class="errorstring" id="errorName" style="color: red"></span></li>
+                                                <li>
+                                                    <p class="pSty01" align="right">配送省份/直辖市：</p>
+                                                    <p>
+                                                        <select id="ProvinceID" name="ProvinceID" onchange="ShowCity(this.options[selectedIndex].text);CheckProvince()">
+                                                            <option selected="selected" value="">--请选择--</option>
+                                                            <option value="%e5%8c%97%e4%ba%ac">北京</option>
+                                                            <option value="%e5%a4%a9%e6%b4%a5">天津</option>
+                                                            <option value="%e6%b2%b3%e5%8c%97">河北</option>
+                                                            <option value="%e5%b1%b1%e8%a5%bf">山西</option>
+                                                            <option value="%e5%86%85%e8%92%99%e5%8f%a4">内蒙古</option>
+                                                            <option value="%e8%be%bd%e5%ae%81">辽宁</option>
+                                                            <option value="%e5%90%89%e6%9e%97">吉林</option>
+                                                            <option value="%e9%bb%91%e9%be%99%e6%b1%9f">黑龙江</option>
+                                                            <option value="%e4%b8%8a%e6%b5%b7">上海</option>
+                                                            <option value="%e6%b1%9f%e8%8b%8f">江苏</option>
+                                                            <option value="%e6%b5%99%e6%b1%9f">浙江</option>
+                                                            <option value="%e5%ae%89%e5%be%bd">安徽</option>
+                                                            <option value="%e7%a6%8f%e5%bb%ba">福建</option>
+                                                            <option value="%e6%b1%9f%e8%a5%bf">江西</option>
+                                                            <option value="%e5%b1%b1%e4%b8%9c">山东</option>
+                                                            <option value="%e6%b2%b3%e5%8d%97">河南</option>
+                                                            <option value="%e6%b9%96%e5%8c%97">湖北</option>
+                                                            <option value="%e6%b9%96%e5%8d%97">湖南</option>
+                                                            <option value="%e5%b9%bf%e4%b8%9c">广东</option>
+                                                            <option value="%e5%b9%bf%e8%a5%bf">广西</option>
+                                                            <option value="%e6%b5%b7%e5%8d%97">海南</option>
+                                                            <option value="%e9%87%8d%e5%ba%86">重庆</option>
+                                                            <option value="%e5%9b%9b%e5%b7%9d">四川</option>
+                                                            <option value="%e8%b4%b5%e5%b7%9e">贵州</option>
+                                                            <option value="%e4%ba%91%e5%8d%97">云南</option>
+                                                            <option value="%e8%a5%bf%e8%97%8f">西藏</option>
+                                                            <option value="%e9%99%95%e8%a5%bf">陕西</option>
+                                                            <option value="%e7%94%98%e8%82%83">甘肃</option>
+                                                            <option value="%e9%9d%92%e6%b5%b7">青海</option>
+                                                            <option value="%e5%ae%81%e5%a4%8f">宁夏</option>
+                                                            <option value="%e6%96%b0%e7%96%86">新疆</option>
+                                                        </select>
+                                                        &nbsp;&nbsp;市：
+                                                        <select id="CityID" name="CityID" onchange="ShowArea(this.options[selectedIndex].text);CheckCity()">
+                                                            <option selected="selected" value="">--请选择--</option>
+                                                        </select>
+                                                        &nbsp;&nbsp;县/区：
+                                                        <select id="AreaID" name="AreaID" onchange="GetPostalCodeNew(this.options[this.selectedIndex].text,'CityID','ProvinceID'),ShowV(this.options[this.selectedIndex].text);CheckArea()">
+                                                            <option selected="selected" value="">--请选择--</option>
+                                                        </select>
+                                                        &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp; </p>
+                                                </li>
+                                                <li class="conLi2"><span id="errorArea"></span></li>
+                                                <li>
+                                                    <p class="pSty01" align="right">详细地址：</p>
+                                                    <p class="pSty02">
+                                                        <form:textarea path="recaddress" id="Address"   maxlength="500"></form:textarea>
+                                                        &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp; <br />
+                                                        <span class="fontSty reusableColor3">862城市送货上门，货到付款。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="reusableColor1"><a href="#" target="_blank"> 查看详细的配送范围 </a></span></span> </p>
+                                                </li>
+                                                <li class="conLi3"><span id="errorAddress" class="errorstring" style="color: red"></span></li>
+                                                <li>
+                                                    <p class="pSty01" align="right">邮政编码：</p>
+                                                    <p class="pSty02 reusableColor3">
+                                                        <form:input path="postcode" id="Zip"></form:input>
+                                                        &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp; <span id="SetPostalCode"></span> </p>
+                                                </li>
+                                                <li class="conLi4"><span id="errorPostal" class="errorstring" style="color: red"></span></li>
+                                                <li>
+                                                    <p class="pSty01" align="right">固定电话：</p>
+                                                    <p class="pSty02">
+                                                        <input name="Tel" id="Tel" onchange="ChecktheForm_Tel()" size="12" type="text" />
+                                                        <span id="PhoneCode"></span> </p>
+                                                </li>
+                                                <li class="conLi5"><span id="errorPhone" class="errorstring"></span></li>
+                                                <li>
+                                                    <p class="pSty01" align="right">手机：</p>
+                                                    <p class="pSty02 reusableColor3">
+                                                        <form:input path="tel" id="Mobile"></form:input>
+                                                        手机与固定电话至少有一项必填 </p>
+                                                </li>
+                                                <li class="conLi6"><span id="errorMobile" style="color: red"></span></li>
+                                                <li class="conLi7"><span class="addSpanSty"><input type="submit" value="保存" style="background: red"/></span></li>
+                                            </ul>
+                                        </form:form>
+                                    </td>
                                 </tr>
                                 <tr class="trSty01" bgcolor="#dcdfe5">
                                     <td class="reusableColor3 xxSty01" align="left" height="26">&nbsp;&nbsp;&nbsp;&nbsp;接下来您还需要选择 配送方式、支付方式、送货时间。</td>
@@ -253,5 +266,15 @@
 </div><!--footer end -->
 <!--body end -->
 </div><!--box-->
+<script type="text/javascript">
+    <%
+        if(request.getAttribute("success")!=null){
+            out.println("alert('"+request.getAttribute("success")+"')");
+        }
+        if(request.getAttribute("failure")!=null){
+            out.println("alert('"+request.getAttribute("failure")+"')");
+        }
+    %>
+</script>
 </body>
 </html>
