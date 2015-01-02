@@ -18,6 +18,7 @@
     <link href="<%=request.getContextPath()%>/css/colorbox.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.colorbox.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.json.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/chart1.js"></script>
     <script type="text/javascript">var _path = '${ctx}'</script>
     <script type="text/javascript">
@@ -109,16 +110,17 @@
             </tr>
             <tr>
                 <td align="left" valign="top" height="145">
-                    <div class="changeAdd" align="center">
+                    <div class="changeAdd" align="center" id="changeAdd">
                         <c:forEach items="${memberaddlist}" var="meradd">
-                    <span style="font-size: 12px;float: left;width: 950px;margin-left: -86;" id="uniquespanid">
-                         <input type="checkbox" style="width: 15px;height: 15px;float: left;margin: 3px -38px 0 19px;" id="newaddressid"/>
+                    <span style="font-size: 12px;float: left;width: 950px;margin-left: -86;" id="uniquespanid${meradd.id}" class="uniquespanid">
+                         <input type="radio" style="width: 15px;height: 15px;float: left;margin: 3px -38px 0 19px;" id="newaddressid${meradd.id}" name="newaddressid" recman = "${meradd.recman}" address="${meradd.recaddress}" postcode="${meradd.postcode}" tel="${meradd.tel}" onchange="checkcss(${meradd.id})"/>
                         <label style="color: cornflowerblue">收货人:</label>${meradd.recman}| <label style="color: cornflowerblue">收货地址:</label>${meradd.recaddress}| <label style="color: cornflowerblue">邮政编码:</label>${meradd.postcode}|<label style="color: cornflowerblue">固定电话:${meradd.tel}</label> <label style="color: cornflowerblue">移动电话:</label>${meradd.tel}
                             <span class="addDeleteSty addFontCol" style="float: right;padding: 0px 0px 21px 0px"><a href="#"><span id="addFontCol" class="addFontCol" onclick="updateclick(${meradd.id},'${meradd.recman}','${meradd.recaddress}','${meradd.postcode}','${meradd.tel}')">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol" id="deleteFontCol${meradd.id}" onclick="deletemeradd(${meradd.id})">删除</span></a></span><span class="addSpanSty"></span>
-                    </span><br>
+                    </span></br></br></br>
                         </c:forEach>
 
                     </div>
+                    <a href="${ctx}/shinowit/chart02"><img src="<%=request.getContextPath()%>/images/button_pszADd.gif" onclick="meradd()" style="margin-left: 409px;margin-bottom: -18px;cursor: pointer"/></a>
                     <%--<a href="chart02.html" style="margin : 0 0 14px 0"><img src="<%=request.getContextPath()%>/images/button_pszADd.gif" border="0" onclick="#" /></a>--%>
                     <div id="edit">
                         <div class="bxSty1">
@@ -216,7 +218,7 @@
                                                         手机与固定电话至少有一项必填 </p>
                                                 </li>
                                                 <li class="conLi6"><span id="errorMobile" style="color: red"></span></li>
-                                                <li class="conLi7"><span class="addSpanSty"><input type="submit" value="保存" style="background: red"/></span></li>
+                                                <li class="conLi7"><span class="addSpanSty"><button style="background-image: url(/images/baocun.jpg);width: 79px;height: 23px;cursor: pointer"/></span></li>
                                             </ul>
                                         </form:form>
                                     </td>

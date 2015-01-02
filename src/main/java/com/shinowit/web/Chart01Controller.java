@@ -1,9 +1,11 @@
 package com.shinowit.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shinowit.dao.mapper.TbaMembeaddrinfoMapper;
 import com.shinowit.dao.mapper.ToolsDao;
 import com.shinowit.entity.TbaMembeaddrinfo;
 import com.shinowit.entity.TbaMembeaddrinfoCriteria;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -62,7 +64,7 @@ public class Chart01Controller {
         if (a > 0) {
             request.setAttribute("success", "添加成功");
         }
-        return "chart01";
+        return "redirect:/shinowit/chart01";
     }
 
     @RequestMapping("/update")
@@ -81,16 +83,36 @@ public class Chart01Controller {
         toolsDao.updatemeradd(meradd);
         return "redirect:/shinowit/chart01";
     }
-
     @RequestMapping("/deletemeradd")
-    public String deletemeradd(@RequestParam("id") Integer id,HttpServletResponse response,HttpServletRequest request){
+    public void deletemeradd(@RequestParam("id") Integer id,HttpServletResponse response){
         int a = meradddao.deleteByPrimaryKey(id);
         if(a>0){
-            request.setAttribute("failure","删除成功");
+            try {
+                response.getWriter().println("删除成功");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else{
-            request.setAttribute("failure","删除失败");
+            try {
+                response.getWriter().println("删除失败");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return "redirect:/shinowit/chart01";
+    }
+//将地址放到session中
+    @RequestMapping("/meraddsession")
+    public void meraddsession(String jsonData,HttpServletRequest request){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<TbaMembeaddrinfo> sessionlist= objectMapper.readValue(jsonData, new TypeReference<List<TbaMembeaddrinfo>>() {
+            });
+            if(sessionlist.size()>0){
+                request.getSession().setAttribute("meraddsrc",sessionlist);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

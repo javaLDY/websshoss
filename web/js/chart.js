@@ -1,7 +1,10 @@
-var Product=function(code,num,price){
+var Product=function(code,num,price,img,totalmoney,merchanname){
     this.chartid=code;
     this.num=num;
     this.price=price;
+    this.picth = img;
+    this.totalmoney = totalmoney;
+    this.merchandisename = merchanname;
 }
 
 $(document).ready(function(){
@@ -56,10 +59,6 @@ $(document).ready(function(){
 //全选框事件
     function selectall(){
         $("input[type=checkbox]").prop("checked","checked");
-//        $('#shoppingCatTable input[type=checkbox]:checked').each(function(i,n){
-//            n = parseFloat($(this).attr('money'));
-//                alert("Item #" + i + ": " + n);
-//        });
     }
     function selectnone(){
         $("input[type=checkbox]").removeAttr("checked");
@@ -81,20 +80,13 @@ $(document).ready(function(){
 //多条删除
 $("#jl02").click(function(){
     var totalidarry =new Array();
-    var totalid = 0;
     $('#shoppingCatTable input[type=checkbox]:checked').each(function(i){
-
         var code=parseInt($(this).attr('newid'));
         if (isNaN(code)==true){
             return true;
         }
-//        var num=$(this).parent().parent().children("td").children("input[type=text]").attr("value");
-//        var price=$(this).parent().parent().children("td").children("input[type=text]").parent().next().children("span").text();
-
         var product=new Product(code);
-
         totalidarry.push(product);
-
     });
     var content1 = $.toJSON(totalidarry);
     $.ajax({
@@ -102,15 +94,16 @@ $("#jl02").click(function(){
         url : _path+"/shinowit/deleteall",
         data : {jsonData:content1},
         contendType:"application/json",
-        success : function(){
-
+        success : function(msg){
+            alert(msg);
+            window.location = _path+"/shinowit/chart"
         },
-        error : function(){
-
+        error : function(msg){
+            alert(msg);
         }
     })
-})
 });
+
 //当点击checkbox的时候改变金额
 function singlecheck(id){
     var total_money=0;
@@ -142,4 +135,29 @@ function inputblur(id){
     if(parseInt($("#OrderAmount_2"+id).val())<1){
         parseInt($("#OrderAmount_2"+id).val(1))
     }
+};
+});
+//将数据加入到session中
+function imgclick(id){
+    var productxinxi = new Array();
+    $('#shoppingCatTable input[type=checkbox]:checked').each(function(){
+        var code = parseInt($(this).attr('newid'));
+        var merchanname = ($(this).attr('merchanname'));
+        var price = ($(this).attr('money'));
+        var totalmoney = ($("#totalmponey")).attr("data");
+        var num = $('#shoppingCatTable input[type="text"]').val();
+        var img = $(this).attr('img');
+        if(isNaN(code)==true){
+            return true;
+        }
+        var product = new Product(code,num,price,img,totalmoney,merchanname);
+        productxinxi.push(product);
+    })
+    var content = $.toJSON(productxinxi);
+    $.ajax({
+        type : "POST",
+        url : _path+"/shinowit/session",
+        data : {jsonData:content},
+        contendType : "application/json"
+    })
 }

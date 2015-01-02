@@ -97,7 +97,7 @@
                         </tr>
                         <c:forEach items="${modellist}" var="chart">
                         <tr id="uniquetrid">
-                            <td align="center"><input type="checkbox" money="${chart.smallsum}" style="height: 20px;width: 20px" id="checkboxid${chart.chartid}" newid="${chart.chartid}" class="checkboxid" onclick="return singlecheck(${chart.chartid})"/></td>
+                            <td align="center"><input type="checkbox" money="${chart.smallsum}" merchanname="${chart.merchandisename}" img="${chart.picth}" style="height: 20px;width: 20px" id="checkboxid${chart.chartid}" newid="${chart.chartid}" class="checkboxid" onclick="return singlecheck(${chart.chartid})"/></td>
                             <td width="160" height="170" align="center" valign="middle"><span class="imgw"><a href="#" target="_blank"><img src="${ctx}/${chart.picth}" alt="带帽水洗收腰休闲夹克 灰色" border="0" width="160" height="170" /></a></span></td>
                             <td><a href="#" target="_blank"><span class="STYLE5">${chart.merchandisename}</span></a></td>
                             <td align="center">￥<span id="00072650${chart.chartid}" class="00072650" data="${chart.price}">${chart.price}</span></td>
@@ -116,7 +116,7 @@
                                                                                id="giftPoint">0</SPAN><SPAN class="colSty sty008">分</SPAN>花费积分总计：<SPAN
                                     class="colSty " id="totalPoint">0</SPAN><SPAN
                                     class="colSty sty010">分</SPAN>&nbsp;&nbsp;<SPAN id="decspan">产品金额总计：<SPAN
-                                    class="colSty ">￥${totalprice}</SPAN>
+                                    class="colSty " id="totalmponey" data="${totalprice}">￥${totalprice}</SPAN>
                                <BR><SPAN class="fontSty01">实际金额：<SPAN
                                     class="colSty"><STRONG>￥</STRONG></SPAN><STRONG><SPAN class="colSty"
                                                                                           id="spRealTotalAmount">0.00</SPAN></STRONG></SPAN></SPAN></TD></TR></TBODY></TABLE>
@@ -131,8 +131,8 @@
                             <TD align=left>&nbsp;</TD>
                             <TD align=middle>&nbsp;</TD>
                             <TD class="tdSty04" vAlign=top align=right colSpan=3><A
-                                    href="${ctx}/shinowit/chart01"><IMG
-                                    src="<%=request.getContextPath()%>/images/pic_gwc__r2_c10.jpg" alt=去结算 border="0"></A></TD></TR></TBODY></TABLE><!--Product end--></DIV>
+                                    href="<%=request.getContextPath()%>/shinowit/chart01"><IMG
+                                    src="<%=request.getContextPath()%>/images/pic_gwc__r2_c10.jpg" alt=去结算 id="uniqueimgid" onclick="imgclick(${chart.chartid})" style="cursor: pointer" border="0"></A></TD></TR></TBODY></TABLE><!--Product end--></DIV>
                 <DIV id=OffProductList></DIV>
                 <TABLE cellSpacing=0 cellPadding=0 width=760 border=0>
                     <TBODY>

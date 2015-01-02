@@ -113,24 +113,43 @@ public class ChartCarController {
         }
         return "chart";
     }
-
+//单挑删除
     @RequestMapping("/delete")
     public String deletechart(@RequestParam("chartid") Integer chartid){
         int a = chartdao.deleteByPrimaryKey(chartid);
         return "redirect:/shinowit/chart";
     }
-
+//多条删除
     @RequestMapping("/deleteall")
-    public String deleteaa(String jsonData){
+    public void deleteaa(String jsonData,HttpServletResponse response){
         try {
             ObjectMapper objectMapper = new  ObjectMapper();
             List<Chart> chartList= objectMapper.readValue(jsonData, new TypeReference<List<Chart>>(){});
+            int a = 0;
             for (Chart chart:chartList){
-                chartdao.deleteByPrimaryKey(chart.getChartid());
+                a = chartdao.deleteByPrimaryKey(chart.getChartid());
+            }
+            if(a>0){
+                response.getWriter().println("删除成功");
+            }else{
+                response.getWriter().println("删除失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/shinowit/chart";
+    }
+//存放商品信息session
+    @RequestMapping("/session")
+    public void pushsession(String jsonData,HttpServletRequest request){
+        try {
+            ObjectMapper objectMapper = new  ObjectMapper();
+            List<Chart> sessionlist= objectMapper.readValue(jsonData, new TypeReference<List<Chart>>(){});
+            if(sessionlist.size()>0){
+                request.getSession().setAttribute("src",sessionlist);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

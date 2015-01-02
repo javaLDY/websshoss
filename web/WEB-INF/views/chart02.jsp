@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -13,6 +14,11 @@
     <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/LoginAndReg.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/gmxx.css" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath()%>/css/colorbox.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.colorbox.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/chart2.js"></script>
+    <script type="text/javascript">var _path = '${ctx}'</script>
 </head>
 
 <body>
@@ -86,14 +92,18 @@
                 <table class="tabSty01" border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tbody>
                     <tr>
-                        <td><div class="titleSty"> <span id="Label_Addressee">
-        <h2 align="left">收货人信息<span class="reusableColor4 typeH2"><a href="#"><span class="addFontCol">修改</span></a></span></h2>
-        <h4 align="left"><span class="reusableColor3 letterSpac">收货人</span><span class="reusableColor3 letterSpac1">：</span>刘德华<br />
-            <span class="reusableColor3">地　　区：</span>河北&nbsp;&nbsp;-&nbsp;&nbsp;唐山市&nbsp;&nbsp;-&nbsp;&nbsp;路北区<br />
-            <span class="reusableColor3">收货地址：</span>唐山火车站&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
-            <span class="reusableColor3">邮政编码：</span>063000<br />
-            <span class="reusableColor3">联系方式：</span>138********</h4>
-      </span> </div></td>
+                        <td><div class="titleSty">
+                            <h2 align="left">商品信息<span class="reusableColor4 typeH2"><a href="#"><span class="addFontCol"></span></a></span></h2>
+                            <c:forEach items="${src}" var="chart">
+                            <span id="Label_Addressee">
+        <h4 align="left">
+            <img src="${ctx}/${chart.picth}" style="width: 110px;height: 110px;float:right;margin-top: -7px"/><br />
+            <span class="reusableColor3">名称：</span>${chart.merchandisename}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+            <span class="reusableColor3">数量：</span>${chart.num}<br />
+            <span class="reusableColor3">金额：</span>${chart.price}</h4>
+
+      </span></br>
+                            </c:forEach></div></td>
                     </tr>
                     </tbody>
                     <form method="post" name="Myform" id="Myform">
@@ -102,19 +112,20 @@
                         <td class="reusableColor5 xxSty01 typeBottom" align="left" valign="middle">&nbsp;&nbsp;&nbsp;&nbsp;请选择 <strong>配送方式　</strong> <span id="Lb1newChange"></span></td>
                     </tr>
                     <tr>
-                        <td class="typeTd1"><div class="psFs2 Paymentclass" align="left">
-                            <li align="left">
-                                <input name="Transfer" value="01" checked="checked" type="radio" />
-                                快递－支持货到付款－您目前可享受全场购物满59元免运费优惠。<span class="reusableColor1"><a href="#" target="_blank"><br />
-                                查看货到付款配送范围</a></span></li>
-                            <li align="left">
-                                <input name="Transfer" value="05" type="radio" />
-                                EMS－不支持货到付款。<span class="reusableColor3">&quot;款到快递&quot;替代原&quot;平邮&quot;送货方式，送货更快。您目前可享受全场购物满59元免运费优惠。</span><span class="reusableColor1"><a href="#" target="_blank"><br />
-                                查看货到付款配送范围</a></span></li>
-                        </div></td>
+                        <td><div class="titleSty"> <span id="Label_Addressee">
+        <h2 align="left">收货人信息<span class="reusableColor4 typeH2"><a href="#"><span class="addFontCol"></span></a></span></h2>
+        <h4 align="left"><span class="reusableColor3 letterSpac">收货人</span><span class="reusableColor3 letterSpac1">：
+        <c:forEach items="${meraddsrc}" var="meradd">
+        </span>${meradd.recman}<br />
+            <span class="reusableColor3">地　　区：</span>${meradd.recaddress}&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;<br />
+            <span class="reusableColor3">收货地址：</span>${meradd.recaddress}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+            <span class="reusableColor3">邮政编码：</span>${meradd.postcode}<br />
+            <span class="reusableColor3">联系方式：</span>${meradd.tel}</h4>
+            </c:forEach>
+      </span> </div></td>
                     </tr>
                     <tr>
-                        <td class="typeTd2"><span class="addDeleteSty addFontCol"><a href="#"><span class="addFontCol">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol">删除</span></a></span><span class="addSpanSty"><a href="${ctx}/shinowit/chart03"><img src="<%=request.getContextPath()%>/images/button_qr.gif" border="0" onclick="#" /></a></span><br />
+                        <td class="typeTd2"><span class="addDeleteSty addFontCol"><a href="#"><span class="addFontCol">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol" id="sessiondelete" >删除</span></a></span><span class="addSpanSty"><a href="${ctx}/shinowit/chart03"><img src="<%=request.getContextPath()%>/images/button_qr.gif" border="0" onclick="#" /></a></span><br />
                         </td>
                     </tr>
                     <tr>

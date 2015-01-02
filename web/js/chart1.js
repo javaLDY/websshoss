@@ -1,15 +1,12 @@
 var ss = $.noConflict();
+var MerAdd = function(id,recman,address,postcode,tel){
+    this.id = id;
+    this.postcode = postcode;
+    this.recaddress = postcode;
+    this.recman = recman;
+    this.tel = tel;
+}
     ss(document).ready(function(){
-        var cc = ss(".changeAdd").children().children("span > input[type=checkbox]");
-        cc.change(function(){
-            var aa = ss(cc).is(':checked');
-            if(aa){
-                ss("#uniquespanid").css("background"," #FAB362");
-            }else{
-                ss("#uniquespanid").css("background","#FFFFFF");
-            }
-
-        });
         ss("#Name").blur(function(){
             if((ss(this).val()==="")){
                 ss("#errorName").text("收货人姓名不能为空");
@@ -133,6 +130,44 @@ function deletemeradd(msg){
         type : "POST",
         url : "/shinowit/deletemeradd",
         data : {id : msg},
-        dataType : "Text"
+        dataType : "Text",
+        success : function(msg){
+            alert(msg);
+            window.location = _path+"/shinowit/chart01"
+        },
+        error : function(msg){
+            alert(msg)
+        }
     })
 }
+//点击加背景
+function checkcss(id){
+        var aa = ss("#newaddressid"+id).is(':checked');
+        if(aa){
+            ss("#uniquespanid"+id).css("background"," #FAB362");
+//            window.location = _path+"/shinowit/chart01"
+        }else{
+            ss("#uniquespanid"+id).css("background"," #FFFFFF");
+        }
+}
+//将选中的地址添加到数据库
+function meradd(){
+    var meradd = new Array();
+    ss("#changeAdd input[type=radio]:checked").each(function(){
+        var id = ss(this).id;
+        var recman = ss(this).attr("recman");
+        var address = ss(this).attr("address");
+        var postcode = ss(this).attr("postcode");
+        var tel = ss(this).attr("tel");
+        var meradddata = new MerAdd(id,recman,address,postcode,tel);
+        meradd.push(meradddata);
+    });
+    var contend = ss.toJSON(meradd);
+    ss.ajax({
+        type : "POST",
+        url : _path+"/shinowit/meraddsession",
+        data : {jsonData:contend},
+        contendType : "application/json"
+    })
+}
+//session失效跳转
