@@ -15,6 +15,7 @@
     <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/css/innerstyle.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript">var _path='${ctx}'</script>
     <script type="text/javascript">
         $(document).ready(function(){
             $(".uniqueid").click(function(){
@@ -38,7 +39,13 @@
                     }
                 })
             });
+
             $("#gouwucheid").click(function(){
+                var aa = $(this).attr("data");
+                if(aa==""){
+                    window.location=_path+"/shinowit/validlogin";
+                    return;
+                }
                 $.ajax({
                     type : "GET",
                     url : "<%=request.getContextPath()%>/shinowit/chartcar",
@@ -195,7 +202,7 @@
                             height="28"><img id="jianid" style="width: 20px;height: 19px;background: lightgrey;cursor: pointer" src="<%=request.getContextPath()%>/images/jian.png"/><input id="numid" value="1" style="width: 29px;text-align: center" readonly="readonly"/><img id="numaddid" style="width: 20px;height: 19px;background: lightgrey;cursor: pointer" src="<%=request.getContextPath()%>/images/numadd.png"/></td>
                     </tr>
                     <tr>
-                        <td valign="center" align="middle" width="111" height="5"><img id="gouwucheid"  src="<%=request.getContextPath()%>/images/vivioow_b3.jpg" height="35" style="cursor: pointer"/></td>
+                        <td valign="center" align="middle" width="111" height="5"><img id="gouwucheid" data="${loginame}" src="<%=request.getContextPath()%>/images/vivioow_b3.jpg" height="35" style="cursor: pointer"/></td>
                         <td width="162" valign="center" align="middle" height="47"><img src="<%=request.getContextPath()%>/images/vivioow_b2.jpg" height="35" style="cursor: pointer"/></td>
                     </tr>
 

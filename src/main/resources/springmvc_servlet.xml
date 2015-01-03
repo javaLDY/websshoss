@@ -48,6 +48,10 @@
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="locale"/>
     </mvc:interceptors>
+
+    <mvc:interceptors>
+        <bean class="com.shinowit.tools.Intercepter" />
+    </mvc:interceptors>
     <!-- Declare the Resolver -->
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class InnerPageController {
     private TmeMerchandiseinfoMapper merchandisedao;
 
     @RequestMapping("/innerpage")
-    public String chartshow(@RequestParam("merchanname") String merchanname,Model model){
+    public String chartshow(@RequestParam("merchanname") String merchanname,Model model,HttpServletRequest request){
         //商品类别查询
         List<TmeMerchandisecinfo> merchaninfoclist = new ArrayList<TmeMerchandisecinfo>();
         TmeMerchandisecinfoCriteria criteria = new TmeMerchandisecinfoCriteria();
@@ -57,6 +58,7 @@ public class InnerPageController {
                 model.addAttribute("picpath",mer.getPicpath());
                 model.addAttribute("unite",mer.getUnitid());
                 model.addAttribute("spen",mer.getSpec());
+                model.addAttribute("loginame",request.getSession().getAttribute("loginame"));
                 return "innerpage";
             }
         } catch (UnsupportedEncodingException e) {
