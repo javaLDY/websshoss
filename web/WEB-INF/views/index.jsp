@@ -18,31 +18,6 @@
     <script type="text/javascript">var pagesumnum = '${pagesumnum}'</script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/index.js"></script>
-    <script type="text/javascript">
-        <%--$(document).ready(function(){--%>
-           <%--$(".uniqueid").click(function(){--%>
-               <%--$.ajax({--%>
-                   <%--type:"get",--%>
-                   <%--url:"<%=request.getContextPath()%>/shinowit/merchandise",--%>
-                   <%--data:{merchanCid:$(this).attr("data")},--%>
-                   <%--contendType:"application/json",--%>
-                   <%--success : function(msg){--%>
-                       <%--var newdata="";--%>
-                       <%--for(var a= 0;a<msg.length;a++){--%>
-                           <%--newdata +=--%>
-                           <%--"<ul>"+--%>
-                           <%--"<li><a class='uniqueid' href='${ctx}/shinowit/index' data="+msg[a].merchandiseid+">"+msg[a].merchandisename+"</a></li>"+--%>
-                           <%--"</ul>"--%>
-                       <%--}--%>
-                       <%--document.getElementById("uniqueid2").innerHTML=newdata;--%>
-                   <%--},--%>
-                   <%--error : function(){--%>
-                       <%--alert("数据加载失败")--%>
-                   <%--}--%>
-               <%--})--%>
-           <%--});--%>
-        <%--});--%>
-    </script>
 </head>
 
 <body>

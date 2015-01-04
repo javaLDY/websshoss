@@ -5,7 +5,7 @@ var Product=function(code,num,price,img,totalmoney,merchanname){
     this.picth = img;
     this.totalmoney = totalmoney;
     this.merchandisename = merchanname;
-}
+};
 
 $(document).ready(function(){
     $("#tiaojian1").click(function(){
@@ -76,7 +76,7 @@ $(document).ready(function(){
             $("#spRealTotalAmount").text("0.00");
         }
         $("#spRealTotalAmount").text(total_money);
-    })
+    });
 //多条删除
 $("#jl02").click(function(){
     var totalidarry =new Array();
@@ -103,7 +103,7 @@ $("#jl02").click(function(){
         }
     })
 });
-
+});
 //当点击checkbox的时候改变金额
 function singlecheck(id){
     var total_money=0;
@@ -118,7 +118,7 @@ function mousedown(id){
     $("#jianid"+id).css("background","gray");
     $("#jianid"+id).mouseup(function(){
         $("#jianid"+id).css("background","lightgrey")
-    })
+    });
     if(parseInt($("#OrderAmount_2"+id).val())<1){
         parseInt($("#OrderAmount_2"+id).val(1))
     }
@@ -136,7 +136,7 @@ function inputblur(id){
         parseInt($("#OrderAmount_2"+id).val(1))
     }
 };
-});
+
 //将数据加入到session中
 function imgclick(id){
     var productxinxi = new Array();
@@ -152,7 +152,7 @@ function imgclick(id){
         }
         var product = new Product(code,num,price,img,totalmoney,merchanname);
         productxinxi.push(product);
-    })
+    });
     var content = $.toJSON(productxinxi);
     $.ajax({
         type : "POST",

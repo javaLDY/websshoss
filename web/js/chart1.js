@@ -7,6 +7,15 @@ var MerAdd = function(id,recman,address,postcode,tel){
     this.tel = tel;
 }
     ss(document).ready(function(){
+
+        ss("[name='newaddressid']").click(function(){
+            ss(this).parent().css("background","#FF6100").siblings().css("background","none");
+        });
+
+//        ss(":input").click(function(){
+//            ss(".aaa").show();
+//        });
+
         ss("#Name").blur(function(){
             if((ss(this).val()==="")){
                 ss("#errorName").text("收货人姓名不能为空");
@@ -45,49 +54,8 @@ var MerAdd = function(id,recman,address,postcode,tel){
                     ss("#errorMobile").text("");
                 }
             }
-
         });
-        //灯箱操作
-//        ss("#addFontCol").click(function(){
-////            window.open('aa.htm','','width=600,height=600,top=100,left=100');
-////            ss("#addFontCol").focus();
-//            ss("#cboxLoadedContent").css("background","#FAB362");
-//            ss.colorbox({
-//                html :
-//                    "<table style='border-collapse:separate; border-spacing:10px;width: 453px;height: 354px' id='table1'>"+
-//                    "<tbody>"+
-//                    "<tr>"+
-//                    "<td style='background: #808080;width: 0;height: 46px'>请输入新的发货地址</td>"+
-//                    "</tr>"+
-//                    "<tr>"+
-//                    "<td style='margin: 0'>"+
-//                    "<form id='formid'>"+
-//                    "<ul style='border-collapse:separate; border-spacing:10px;margin: 29px 92px 30px 92px' id='newul'>"+
-//                    "<li style='margin-left: 15px'>"+
-//                    "<label >收货人:</label><input  type='text'/>"+
-//                    "</li></br>"+
-//                    "<li>"+
-//                    "<label >收货地址:</label><textarea/>"+
-//                    "</li></br>"+
-//                    "<li>"+
-//                    "<label >邮政编码:</label><input type='text'/>"+
-//                    "</li></br>"+
-//                    "<li>"+
-//                    "<label >联系电话:</label><input type='text'/>"+
-//                    "</li></br>"+
-//                    "<li>"+
-//                    "<input type='submit' style='margin-left: 105px;width: 95px;background: red'/>"+
-//                    "</li>"+
-//                    "</ul>"+
-//                    "</form>"+
-//                    "</td>"+
-//                    "</tr>"+
-//                    "</tbody>"+
-//                    "</table>"
-//            })
-//        })
-});
-//问问老师怎么选出修改的还有就是可不可以在这里加上form标签
+    });
 function updateclick(msg,recname,recaddress,postcode,tel){
     ss.colorbox({
         html :
@@ -140,16 +108,6 @@ function deletemeradd(msg){
         }
     })
 }
-//点击加背景
-function checkcss(id){
-        var aa = ss("#newaddressid"+id).is(':checked');
-        if(aa){
-            ss("#uniquespanid"+id).css("background"," #FAB362");
-//            window.location = _path+"/shinowit/chart01"
-        }else{
-            ss("#uniquespanid"+id).css("background"," #FFFFFF");
-        }
-}
 //将选中的地址添加到数据库
 function meradd(){
     var meradd = new Array();
@@ -169,5 +127,5 @@ function meradd(){
         data : {jsonData:contend},
         contendType : "application/json"
     })
-}
+};
 //session失效跳转

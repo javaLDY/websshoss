@@ -14,14 +14,14 @@ public class Intercepter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String uri = request.getRequestURI();
-        if((uri.endsWith("validate"))||(uri.endsWith("emailvalid"))||(uri.endsWith("loginemail"))||(uri.endsWith("index"))||(uri.endsWith("validlogin"))||(uri.endsWith("insert"))||(uri.startsWith("/lib"))||(uri.startsWith("/js"))||(uri.startsWith("/css"))||(uri.startsWith("/images"))||(uri.endsWith("innerpage"))){
+        if((uri.endsWith("validate"))||(uri.endsWith("emailvalid"))||(uri.endsWith("loginemail"))||(uri.endsWith("index"))||(uri.endsWith("validlogin"))||(uri.endsWith("insert"))||(uri.startsWith("/lib"))||(uri.startsWith(".js"))||(uri.endsWith(".css"))||(uri.endsWith(".jsp"))||(uri.endsWith(".png"))||(uri.endsWith("innerpage"))){
             return true;
         }
         String session = (String)request.getSession().getAttribute("loginame");
         if(session==null){
             response.sendRedirect(request.getContextPath()+"/shinowit/validlogin");
         }
-        return false;
+        return true;
     }
 
     @Override

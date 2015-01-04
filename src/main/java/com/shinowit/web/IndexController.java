@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -52,7 +53,7 @@ public class IndexController {
 //    }
 
     @RequestMapping("/index")
-    public String indexshow(@ModelAttribute("merchan")TmeMerchandiseinfo merchandiseinfo,Model model,@RequestParam(value = "merchanCid",required = false)String merCid,@RequestParam(value = "pageindex",required = false) Integer pageIndex,@RequestParam(value = "merchanname",required = false)String merchanname){
+    public String indexshow(@ModelAttribute("merchan")TmeMerchandiseinfo merchandiseinfo,HttpServletRequest request,Model model,@RequestParam(value = "merchanCid",required = false)String merCid,@RequestParam(value = "pageindex",required = false) Integer pageIndex,@RequestParam(value = "merchanname",required = false)String merchanname,HttpServletResponse response){
         //商品类别查询
         List<TmeMerchandisecinfo> merchaninfoclist = new ArrayList<TmeMerchandisecinfo>();
         TmeMerchandisecinfoCriteria criteria = new TmeMerchandisecinfoCriteria();

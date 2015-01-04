@@ -22,6 +22,8 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/chart1.js"></script>
     <script type="text/javascript">var _path = '${ctx}'</script>
     <script type="text/javascript">
+
+
         <%
             String loginname = (String)session.getAttribute("loginame");
 
@@ -113,7 +115,7 @@
                     <div class="changeAdd" align="center" id="changeAdd">
                         <c:forEach items="${memberaddlist}" var="meradd">
                     <span style="font-size: 12px;float: left;width: 950px;margin-left: -86;" id="uniquespanid${meradd.id}" class="uniquespanid">
-                         <input type="radio" style="width: 15px;height: 15px;float: left;margin: 3px -38px 0 19px;" id="newaddressid${meradd.id}" name="newaddressid" recman = "${meradd.recman}" address="${meradd.recaddress}" postcode="${meradd.postcode}" tel="${meradd.tel}" onchange="checkcss(${meradd.id})"/>
+                         <input type="radio" style="width: 15px;height: 15px;float: left;margin: 3px -38px 0 19px;" id="newaddressid${meradd.id}" name="newaddressid" recman = "${meradd.recman}" address="${meradd.recaddress}" postcode="${meradd.postcode}" tel="${meradd.tel}"/>
                         <label style="color: cornflowerblue">收货人:</label>${meradd.recman}| <label style="color: cornflowerblue">收货地址:</label>${meradd.recaddress}| <label style="color: cornflowerblue">邮政编码:</label>${meradd.postcode}|<label style="color: cornflowerblue">固定电话:${meradd.tel}</label> <label style="color: cornflowerblue">移动电话:</label>${meradd.tel}
                             <span class="addDeleteSty addFontCol" style="float: right;padding: 0px 0px 21px 0px"><a href="#"><span id="addFontCol" class="addFontCol" onclick="updateclick(${meradd.id},'${meradd.recman}','${meradd.recaddress}','${meradd.postcode}','${meradd.tel}')">修改</span></a><span class="addFontCol">　|</span>　<a href="#"><span class="addFontCol" id="deleteFontCol${meradd.id}" onclick="deletemeradd(${meradd.id})">删除</span></a></span><span class="addSpanSty"></span>
                     </span></br></br></br>
@@ -179,11 +181,11 @@
                                                             <option value="%e6%96%b0%e7%96%86">新疆</option>
                                                         </select>
                                                         &nbsp;&nbsp;市：
-                                                        <select id="CityID" name="CityID" onchange="ShowArea(this.options[selectedIndex].text);CheckCity()">
+                                                        <select id="CityID" name="CityID" onchange="ShowArea(this.options[selectedIndex].text);">
                                                             <option selected="selected" value="">--请选择--</option>
                                                         </select>
                                                         &nbsp;&nbsp;县/区：
-                                                        <select id="AreaID" name="AreaID" onchange="GetPostalCodeNew(this.options[this.selectedIndex].text,'CityID','ProvinceID'),ShowV(this.options[this.selectedIndex].text);CheckArea()">
+                                                        <select id="AreaID" name="AreaID" onchange="GetPostalCodeNew(this.options[this.selectedIndex].text,'CityID','ProvinceID'),ShowV(this.options[this.selectedIndex].text);">
                                                             <option selected="selected" value="">--请选择--</option>
                                                         </select>
                                                         &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp; </p>
@@ -268,6 +270,17 @@
 </div><!--footer end -->
 <!--body end -->
 </div><!--box-->
+
+
+
+<%--<div class="aaa" style="display: none;">--%>
+
+    <%--sdkfjhskdjfkh--%>
+
+<%--</div>--%>
+
+<%--<input type="submit" value="按钮">--%>
+
 <script type="text/javascript">
     <%
         if(request.getAttribute("success")!=null){

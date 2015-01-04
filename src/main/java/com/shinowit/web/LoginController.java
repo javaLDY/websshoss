@@ -42,7 +42,7 @@ public class LoginController {
             }
     }
     @RequestMapping("/validlogin")
-    public String testlogin(@ModelAttribute("loginmem")TbaMemberinfo memebr,BindingResult bindingResult,HttpServletRequest request){
+    public String testlogin(@ModelAttribute("loginmem")TbaMemberinfo memebr,BindingResult bindingResult,HttpServletRequest request,HttpServletResponse response){
         if(bindingResult.hasErrors()){
             return "/login";
         }
