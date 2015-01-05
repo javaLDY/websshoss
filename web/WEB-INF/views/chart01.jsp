@@ -22,12 +22,72 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/chart1.js"></script>
     <script type="text/javascript">var _path = '${ctx}'</script>
     <script type="text/javascript">
-
-
         <%
             String loginname = (String)session.getAttribute("loginame");
 
         %>
+        ss(document).ready(function(){
+            ss.ajax({
+                type : "GET",
+                url : _path+"/shinowit/provnice",
+                success : function(msg){
+                    ss(msg).each(function () {
+                        var opt = ss("<option/>").text(this.name).attr("value", this.id);
+                        var input = ss("<input type='hidden'/>").attr("value",this.name);
+                        ss("#provinceID").append(opt,input);
+                    })
+                }
+            });
+            var aa = "";
+            var bb = "";
+            var cc = "";
+            ss("#provinceID").change(function(){
+                aa = this.options[this.selectedIndex].innerText;
+                showproince();
+            });
+
+            ss("#CityID").change(function(){
+                 bb = this.options[this.selectedIndex].innerText;
+                showarea();
+            });
+
+            ss("#AreaID").change(function(){
+                cc = this.options[this.selectedIndex].innerText;
+                ss("#Address").text(aa+bb+cc)
+            });
+
+        });
+        //市级查询
+        function showproince(){
+            ss("#CityID").empty();
+            ss("#AreaID").empty();
+            ss.ajax({
+                type : "POST",
+                url : _path+"/shinowit/city",
+                data : {provinceid:ss("#provinceID").val()},
+                success : function(msg){
+                    ss(msg).each(function () {
+                        var opt = ss("<option/>").text(this.name).attr("value", this.id);
+                        ss("#CityID").append(opt);
+                    })
+                }
+            });
+        }
+        //区级查询
+        function showarea(){
+            ss("#AreaID").empty();
+            ss.ajax({
+                type : "POST",
+                url : _path+"/shinowit/area",
+                data : {cityid:ss("#CityID").val()},
+                success : function(msg){
+                    ss(msg).each(function () {
+                        var opt = ss("<option/>").text(this.name).attr("value", this.id);
+                        ss("#AreaID").append(opt);
+                    })
+                }
+            });
+        }
     </script>
 </head>
 
@@ -146,46 +206,15 @@
                                                 <li>
                                                     <p class="pSty01" align="right">配送省份/直辖市：</p>
                                                     <p>
-                                                        <select id="ProvinceID" name="ProvinceID" onchange="ShowCity(this.options[selectedIndex].text);CheckProvince()">
+                                                        <select id="provinceID" name="provinceID"  >
                                                             <option selected="selected" value="">--请选择--</option>
-                                                            <option value="%e5%8c%97%e4%ba%ac">北京</option>
-                                                            <option value="%e5%a4%a9%e6%b4%a5">天津</option>
-                                                            <option value="%e6%b2%b3%e5%8c%97">河北</option>
-                                                            <option value="%e5%b1%b1%e8%a5%bf">山西</option>
-                                                            <option value="%e5%86%85%e8%92%99%e5%8f%a4">内蒙古</option>
-                                                            <option value="%e8%be%bd%e5%ae%81">辽宁</option>
-                                                            <option value="%e5%90%89%e6%9e%97">吉林</option>
-                                                            <option value="%e9%bb%91%e9%be%99%e6%b1%9f">黑龙江</option>
-                                                            <option value="%e4%b8%8a%e6%b5%b7">上海</option>
-                                                            <option value="%e6%b1%9f%e8%8b%8f">江苏</option>
-                                                            <option value="%e6%b5%99%e6%b1%9f">浙江</option>
-                                                            <option value="%e5%ae%89%e5%be%bd">安徽</option>
-                                                            <option value="%e7%a6%8f%e5%bb%ba">福建</option>
-                                                            <option value="%e6%b1%9f%e8%a5%bf">江西</option>
-                                                            <option value="%e5%b1%b1%e4%b8%9c">山东</option>
-                                                            <option value="%e6%b2%b3%e5%8d%97">河南</option>
-                                                            <option value="%e6%b9%96%e5%8c%97">湖北</option>
-                                                            <option value="%e6%b9%96%e5%8d%97">湖南</option>
-                                                            <option value="%e5%b9%bf%e4%b8%9c">广东</option>
-                                                            <option value="%e5%b9%bf%e8%a5%bf">广西</option>
-                                                            <option value="%e6%b5%b7%e5%8d%97">海南</option>
-                                                            <option value="%e9%87%8d%e5%ba%86">重庆</option>
-                                                            <option value="%e5%9b%9b%e5%b7%9d">四川</option>
-                                                            <option value="%e8%b4%b5%e5%b7%9e">贵州</option>
-                                                            <option value="%e4%ba%91%e5%8d%97">云南</option>
-                                                            <option value="%e8%a5%bf%e8%97%8f">西藏</option>
-                                                            <option value="%e9%99%95%e8%a5%bf">陕西</option>
-                                                            <option value="%e7%94%98%e8%82%83">甘肃</option>
-                                                            <option value="%e9%9d%92%e6%b5%b7">青海</option>
-                                                            <option value="%e5%ae%81%e5%a4%8f">宁夏</option>
-                                                            <option value="%e6%96%b0%e7%96%86">新疆</option>
                                                         </select>
                                                         &nbsp;&nbsp;市：
-                                                        <select id="CityID" name="CityID" onchange="ShowArea(this.options[selectedIndex].text);">
+                                                        <select id="CityID" name="CityID"  >
                                                             <option selected="selected" value="">--请选择--</option>
                                                         </select>
                                                         &nbsp;&nbsp;县/区：
-                                                        <select id="AreaID" name="AreaID" onchange="GetPostalCodeNew(this.options[this.selectedIndex].text,'CityID','ProvinceID'),ShowV(this.options[this.selectedIndex].text);">
+                                                        <select id="AreaID" name="AreaID" >
                                                             <option selected="selected" value="">--请选择--</option>
                                                         </select>
                                                         &nbsp;&nbsp;<span class="reusableColor4">*</span>&nbsp;&nbsp; </p>

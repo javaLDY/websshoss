@@ -1,16 +1,15 @@
 package com.shinowit.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shinowit.dao.mapper.TbaMembeaddrinfoMapper;
-import com.shinowit.dao.mapper.ToolsDao;
-import com.shinowit.entity.TbaMembeaddrinfo;
-import com.shinowit.entity.TbaMembeaddrinfoCriteria;
+import com.shinowit.dao.mapper.*;
+import com.shinowit.entity.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +29,15 @@ public class Chart01Controller {
     @Resource
     private ToolsDao toolsDao;
 
+    @Resource
+    private ProvinceMapper provincedao;
+
+    @Resource
+    private CityMapper citydao;
+
+    @Resource
+    private DistrictMapper areadao;
+
     @RequestMapping("/chart01")
     public String meradd(@ModelAttribute("merxadd") TbaMembeaddrinfo meraddinfo,Model model,HttpServletRequest request) {
         //查询发货详细信息
@@ -39,6 +47,7 @@ public class Chart01Controller {
         tj.andUsernameEqualTo(username);
         List<TbaMembeaddrinfo> meraddlist = meradddao.selectByExample(criteria);
         model.addAttribute("memberaddlist",meraddlist);
+
         if(meraddinfo.getRecman()==null){
             return "chart01";
         }
@@ -113,6 +122,36 @@ public class Chart01Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping("/provnice")
+    @ResponseBody
+    public List<Province>  provniceselect(){
+        ProvinceCriteria criteria1 = new ProvinceCriteria();
+        ProvinceCriteria.Criteria tj1 = criteria1.createCriteria();
+        tj1.andIdIsNotNull();
+        List<Province> provinceslist = provincedao.selectByExample(criteria1);
+        return provinceslist;
+    }
+
+    @RequestMapping("/city")
+    @ResponseBody
+    public List<City> cityselect(@RequestParam("provinceid")String provinceid){
+        CityCriteria criteria = new CityCriteria();
+        CityCriteria.Criteria tj = criteria.createCriteria();
+        tj.andProvinceidEqualTo(provinceid);
+        List<City> cityList = citydao.selectByExample(criteria);
+        return cityList;
+    }
+
+    @RequestMapping("/area")
+    @ResponseBody
+    public List<District> areaselect(@RequestParam("cityid")String cityid){
+        DistrictCriteria criteria = new DistrictCriteria();
+        DistrictCriteria.Criteria tj = criteria.createCriteria();
+        tj.andCityidEqualTo(cityid);
+        List<District> areaList = areadao.selectByExample(criteria);
+        return areaList;
     }
 }
 

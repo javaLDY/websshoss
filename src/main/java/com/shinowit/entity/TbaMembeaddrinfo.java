@@ -241,6 +241,7 @@ public class TbaMembeaddrinfo implements Serializable {
      *
      * @mbggenerated Mon Jan 05 19:10:53 CST 2015
      */
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
