@@ -56,20 +56,20 @@ public class ToolsDao {
         return result;
     }
     //购物车的插入
-    public boolean chartinsert(String merchanname,BigDecimal price,String picture,int num,BigDecimal smallnum){
+    public boolean chartinsert(String merchanname,BigDecimal price,String picture,int num,BigDecimal smallnum,int merberid){
         boolean result = false;
-        String sql = "insert into chart(merchandisename,smallsum,num,picth,price) values(?,?,?,?,?)";
-        int a = jt.update(sql,new Object[]{merchanname,smallnum,num,picture,price},new int[]{Types.VARCHAR,Types.NUMERIC,Types.INTEGER,Types.VARCHAR,Types.NUMERIC});
+        String sql = "insert into chart(merchandisename,smallsum,num,picth,price,merberid) values(?,?,?,?,?,?)";
+        int a = jt.update(sql,new Object[]{merchanname,smallnum,num,picture,price,merberid},new int[]{Types.VARCHAR,Types.NUMERIC,Types.INTEGER,Types.VARCHAR,Types.NUMERIC,Types.INTEGER});
         if(a>0){
             result = true;
         }
         return result;
     }
     //购物车的总数量计算
-    public List<Map<String,Object>> totalnum(){
+    public List<Map<String,Object>> totalnum(int merberid){
         List<Map<String,Object>> result = null;
-        String sql = "select SUM(num) as snumnum,SUM(price) as totalprice from dbo.chart ";
-        result = jt.queryForList(sql,new Object[]{},new int[]{});
+        String sql = "select SUM(num) as snumnum,SUM(price) as totalprice from dbo.chart where merberid=?";
+        result = jt.queryForList(sql,new Object[]{merberid},new int[]{Types.INTEGER});
         return result;
     }
     //发货信息更改
@@ -82,4 +82,11 @@ public class ToolsDao {
          }
          return result;
      }
+
+    public List<Map<String,Object>> chartselect(Integer merid,int pageSize,int pageIndex){
+        List<Map<String,Object>> result = null;
+        String sql1 = "select top "+pageSize+" * from dbo.chart a where a.chartid not in (select top (("+pageIndex+"-1) * "+pageSize+") chartid from dbo.chart where merberid="+merid+" )and merberid="+merid+"";
+        result = jt.queryForList(sql1);
+        return result;
+    }
 }

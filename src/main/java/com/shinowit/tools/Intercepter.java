@@ -14,7 +14,7 @@ public class Intercepter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String uri = request.getRequestURI();
-        if((uri.endsWith("validate"))||(uri.endsWith("emailvalid"))||(uri.endsWith("loginemail"))||(uri.endsWith("index"))||(uri.endsWith("validlogin"))||(uri.endsWith("insert"))||(uri.startsWith("/lib"))||(uri.startsWith(".js"))||(uri.endsWith(".css"))||(uri.endsWith(".jsp"))||(uri.endsWith(".png"))||(uri.endsWith("innerpage"))){
+        if((uri.startsWith("/js"))||(uri.endsWith(".jsp"))||(uri.endsWith(".gif"))||(uri.endsWith("validate"))||(uri.endsWith("emailvalid"))||(uri.endsWith("loginemail"))||(uri.endsWith("index"))||(uri.endsWith("validlogin"))||(uri.endsWith("insert"))||(uri.startsWith("/lib"))||(uri.startsWith(".js"))||(uri.endsWith(".css"))||(uri.endsWith(".jpg"))||(uri.endsWith(".png"))||(uri.endsWith("innerpage"))){
             return true;
         }
         String session = (String)request.getSession().getAttribute("loginame");

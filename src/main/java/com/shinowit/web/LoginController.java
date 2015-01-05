@@ -59,11 +59,14 @@ public class LoginController {
         tj.andEmailEqualTo(memebr.getEmail());
         List<TbaMemberinfo> memberlist = memberdao.selectByExample(criteria);
         String loginname = null;
+        int loginid = 0;
         for(TbaMemberinfo mer : memberlist){
             loginname = mer.getUsername();
+            loginid = mer.getId();
         }
         if(memberlist.size()>0){
             request.getSession().setAttribute("loginame",loginname);
+            request.getSession().setAttribute("loginid",loginid);
             return "redirect:/shinowit/index";
         }else{
             return "/login";

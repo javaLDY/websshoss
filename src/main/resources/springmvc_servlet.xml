@@ -50,6 +50,10 @@
     </mvc:interceptors>
 
 
+    <mvc:interceptors>
+        <bean class="com.shinowit.tools.Intercepter" />
+    </mvc:interceptors>
+
     <!-- Declare the Resolver -->
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
 
@@ -66,9 +70,7 @@
     <mvc:resources mapping="/upload/**" location="/upload/"/>
 
 
-    <mvc:interceptors>
-        <bean class="com.shinowit.tools.Intercepter" />
-    </mvc:interceptors>
+
 
     <!--<mvc:interceptors>-->
         <!--<bean class="com.shinowit.web.LoginIntereptor" />-->

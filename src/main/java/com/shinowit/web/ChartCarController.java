@@ -37,18 +37,20 @@ public class ChartCarController {
 
     @RequestMapping("/chartcar")
     public void chart(HttpServletRequest request,HttpServletResponse response){
+        Integer loginid = (Integer)request.getSession().getAttribute("loginid");
         String merchanname = request.getParameter("merchanname");
         String picture = request.getParameter("picture");
         int num =Integer.valueOf( request.getParameter("num"));
         Double price =Double.valueOf(request.getParameter("price"));
         BigDecimal smallnum = BigDecimal.valueOf(price);
         BigDecimal newprice = BigDecimal.valueOf(price);
+
         try {
             byte[] bb = merchanname.getBytes("ISO-8859-1");
             merchanname = new String(bb, "UTF-8");
             boolean status = false;
             try {
-                 status = toolsDao.chartinsert(merchanname,newprice,picture,num,smallnum);
+                 status = toolsDao.chartinsert(merchanname,newprice,picture,num,smallnum,loginid);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -71,10 +73,11 @@ public class ChartCarController {
     }
 
     @RequestMapping("/chart")
-    public String chartcarselect(@RequestParam(value = "pageindex",required = false) Integer pageIndex,Model model){
+    public String chartcarselect(@RequestParam(value = "pageindex",required = false) Integer pageIndex,Model model,HttpServletRequest request){
+        Integer loginid = (Integer)request.getSession().getAttribute("loginid");
         ChartCriteria criteria = new ChartCriteria();
         ChartCriteria.Criteria tj = criteria.createCriteria();
-        tj.andChartidIsNotNull();
+        tj.andMerberidEqualTo(loginid);
         int sumnum = 0;
         int pageSize=4;
         sumnum = chartdao.selectByExample(criteria).size();
@@ -82,7 +85,7 @@ public class ChartCarController {
         if(sumnum%pageSize!=0){
             pagetotalnum = pagetotalnum+1;
         }
-        List<Map<String,Object>> resultlist = toolsDao.totalnum();
+        List<Map<String,Object>> resultlist = toolsDao.totalnum(loginid);
         Object a = null;
         Object b = null;
         for(Map<String,Object> num : resultlist){
@@ -93,18 +96,14 @@ public class ChartCarController {
         model.addAttribute("totalprice",b);
         if(pageIndex==null){
             pageIndex = 1;
-            criteria.setPageSize(pageSize);
-            criteria.setPageIndex(pageIndex);
-            List<Chart> chartlist = chartdao.selectPage(criteria);
+            List<Map<String,Object>> chartlist = toolsDao.chartselect(loginid,pageSize,pageIndex);
             model.addAttribute("modellist",chartlist);
             model.addAttribute("pageindex",pageIndex);
             model.addAttribute("pagesize",pageSize);
             model.addAttribute("sumnum",sumnum);
             model.addAttribute("pagetotalnum",pagetotalnum);
         }else{
-            criteria.setPageSize(pageSize);
-            criteria.setPageIndex(pageIndex);
-            List<Chart> chartlist = chartdao.selectPage(criteria);
+            List<Map<String,Object>> chartlist = toolsDao.chartselect(loginid,pageSize,pageIndex);
             model.addAttribute("modellist", chartlist);
             model.addAttribute("pageindex",pageIndex);
             model.addAttribute("pagesize",pageSize);
