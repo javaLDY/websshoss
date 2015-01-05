@@ -20,6 +20,7 @@ public class Intercepter implements HandlerInterceptor {
         String session = (String)request.getSession().getAttribute("loginame");
         if(session==null){
             response.sendRedirect(request.getContextPath()+"/shinowit/validlogin");
+            return false;
         }
         return true;
     }
