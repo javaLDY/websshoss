@@ -102,6 +102,16 @@
             <generatedKey column="chartid" sqlStatement="SqlServer" identity="true"/>
         </table>
 
+        <table tableName="district">
+
+        </table>
+
+        <table tableName="city">
+        </table>
+
+        <table tableName="province">
+        </table>
+
     </context>
 </generatorConfiguration>
 

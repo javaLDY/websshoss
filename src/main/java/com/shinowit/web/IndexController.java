@@ -148,6 +148,6 @@ public class IndexController {
         model.addAttribute("merchanname",merchanname);
         model.addAttribute("pageIndex",pageIndex);
         model.addAttribute("pagesumnum",pagesumnum);
-        return "/index";
+        return "index";
     }
 }
