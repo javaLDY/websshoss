@@ -26,11 +26,6 @@
             String loginname = (String)session.getAttribute("loginame");
 
         %>
-        ss(document).ready(function(){
-
-        });
-        //市级查询
-
     </script>
 </head>
 
