@@ -27,67 +27,10 @@
 
         %>
         ss(document).ready(function(){
-            ss.ajax({
-                type : "GET",
-                url : _path+"/shinowit/provnice",
-                success : function(msg){
-                    ss(msg).each(function () {
-                        var opt = ss("<option/>").text(this.name).attr("value", this.id);
-                        var input = ss("<input type='hidden'/>").attr("value",this.name);
-                        ss("#provinceID").append(opt,input);
-                    })
-                }
-            });
-            var aa = "";
-            var bb = "";
-            var cc = "";
-            ss("#provinceID").change(function(){
-                aa = this.options[this.selectedIndex].innerText;
-                showproince();
-            });
-
-            ss("#CityID").change(function(){
-                 bb = this.options[this.selectedIndex].innerText;
-                showarea();
-            });
-
-            ss("#AreaID").change(function(){
-                cc = this.options[this.selectedIndex].innerText;
-                ss("#Address").text(aa+bb+cc)
-            });
 
         });
         //市级查询
-        function showproince(){
-            ss("#CityID").empty();
-            ss("#AreaID").empty();
-            ss.ajax({
-                type : "POST",
-                url : _path+"/shinowit/city",
-                data : {provinceid:ss("#provinceID").val()},
-                success : function(msg){
-                    ss(msg).each(function () {
-                        var opt = ss("<option/>").text(this.name).attr("value", this.id);
-                        ss("#CityID").append(opt);
-                    })
-                }
-            });
-        }
-        //区级查询
-        function showarea(){
-            ss("#AreaID").empty();
-            ss.ajax({
-                type : "POST",
-                url : _path+"/shinowit/area",
-                data : {cityid:ss("#CityID").val()},
-                success : function(msg){
-                    ss(msg).each(function () {
-                        var opt = ss("<option/>").text(this.name).attr("value", this.id);
-                        ss("#AreaID").append(opt);
-                    })
-                }
-            });
-        }
+
     </script>
 </head>
 
