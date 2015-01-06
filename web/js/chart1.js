@@ -7,15 +7,70 @@ var MerAdd = function(id,recman,address,postcode,tel){
     this.tel = tel;
 }
     ss(document).ready(function(){
-
+        //点击radio变换背景颜色
         ss("[name='newaddressid']").click(function(){
             ss(this).parent().css("background","#FF6100").siblings().css("background","none");
         });
+        ss.ajax({//省级获取
+            type : "GET",
+            url : _path+"/shinowit/provnice",
+            success : function(msg){
+                ss(msg).each(function () {
+                    var opt = ss("<option/>").text(this.name).attr("value", this.id);
+                    var input = ss("<input type='hidden'/>").attr("value",this.name);
+                    ss("#provinceID").append(opt,input);
+                })
+            }
+        });
+        var aa = "";
+        var bb = "";
+        var cc = "";
+        ss("#provinceID").change(function(){
+            aa = this.options[this.selectedIndex].innerText;//获取当前选中的省份
+            showproince();//调用市级的获取
+        });
 
-//        ss(":input").click(function(){
-//            ss(".aaa").show();
-//        });
+        ss("#CityID").change(function(){//获取当前选中的市
+            bb = this.options[this.selectedIndex].innerText;
+            showarea();//调用县区级的获取方法
+        });
 
+        ss("#AreaID").change(function(){
+            cc = this.options[this.selectedIndex].innerText;//获取当前选中的县区
+            ss("#Address").text(aa+bb+cc)//将选中的省，市，县区
+        });
+        //市级获取
+        function showproince(){
+            ss("#CityID").empty();//当选中省级的时候清空市，区，防止当再次选中省的时候或出现在市级上面出现堆积的现象
+            ss("#AreaID").empty();
+            ss.ajax({
+                type : "POST",
+                url : _path+"/shinowit/city",
+                data : {provinceid:ss("#provinceID").val()},
+                success : function(msg){
+                    ss(msg).each(function () {
+                        var opt = ss("<option/>").text(this.name).attr("value", this.id);
+                        ss("#CityID").append(opt);
+                    })
+                }
+            });
+        }
+        //区级查询
+        function showarea(){
+            ss("#AreaID").empty();//同样是防止在选取市级的时候在县区上面出现堆积的现象
+            ss.ajax({
+                type : "POST",
+                url : _path+"/shinowit/area",
+                data : {cityid:ss("#CityID").val()},
+                success : function(msg){
+                    ss(msg).each(function () {
+                        var opt = ss("<option/>").text(this.name).attr("value", this.id);
+                        ss("#AreaID").append(opt);
+                    })
+                }
+            });
+        }
+        //为空和正则判断
         ss("#Name").blur(function(){
             if((ss(this).val()==="")){
                 ss("#errorName").text("收货人姓名不能为空");
