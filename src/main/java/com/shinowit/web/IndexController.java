@@ -7,6 +7,7 @@ import com.shinowit.entity.TmeMerchandisecinfo;
 import com.shinowit.entity.TmeMerchandisecinfoCriteria;
 import com.shinowit.entity.TmeMerchandiseinfo;
 import com.shinowit.entity.TmeMerchandiseinfoCriteria;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +42,7 @@ public class IndexController {
     private ToolsDao toolsDao;
 
     @RequestMapping("/index")
+    @Cacheable(value="user_try_login_cache",key = "'checkvalue'+#pageindex")
     public String indexshow(@ModelAttribute("merchan")TmeMerchandiseinfo merchandiseinfo,HttpServletRequest request,Model model,@RequestParam(value = "merchanCid",required = false)String merCid,@RequestParam(value = "pageindex",required = false) Integer pageIndex,@RequestParam(value = "merchanname",required = false)String merchanname,HttpServletResponse response){
         //商品类别查询
         List<TmeMerchandisecinfo> merchaninfoclist = new ArrayList<TmeMerchandisecinfo>();
@@ -125,6 +127,7 @@ public class IndexController {
                     model.addAttribute("merchandiseall", merchaninfolist1);
                     model.addAttribute("merchandisetoalnum", merchandisetoalnum1);
                 }
+
                 return "/index";
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -136,6 +139,7 @@ public class IndexController {
         model.addAttribute("merchanname",merchanname);
         model.addAttribute("pageIndex",pageIndex);
         model.addAttribute("pagesumnum",pagesumnum);
+        System.out.println("调用了缓存机制");
         return "index";
     }
 }

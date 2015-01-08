@@ -5,6 +5,7 @@ import com.shinowit.dao.mapper.TbaMemberinfoMapper;
 import com.shinowit.entity.TbaMemberinfo;
 import com.shinowit.entity.TbaMemberinfoCriteria;
 import com.shinowit.tools.SendHtmlMail;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -57,6 +58,7 @@ public class RegController {
         }
     }
     @RequestMapping("/validate")//验证码jquery
+
     public void validate(@RequestParam("checkvalue") String checkvalue,HttpServletRequest request,HttpServletResponse response){
         String realchecknum = (String)request.getSession().getAttribute("rand");
         if(!checkvalue.equals(realchecknum)){
