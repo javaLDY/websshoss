@@ -2,6 +2,7 @@ package com.shinowit.dao.mapper;
 
 import com.shinowit.entity.TbaMembeaddrinfo;
 import com.shinowit.entity.TbaMemberinfo;
+import com.shinowit.entity.TmeMerchandiseinfo;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -87,6 +88,23 @@ public class ToolsDao {
         List<Map<String,Object>> result = null;
         String sql1 = "select top "+pageSize+" * from dbo.chart a where a.chartid not in (select top (("+pageIndex+"-1) * "+pageSize+") chartid from dbo.chart where merberid="+merid+" )and merberid="+merid+"";
         result = jt.queryForList(sql1);
+        return result;
+    }
+    //全文索引
+    public boolean insertmerchaner(TmeMerchandiseinfo mer){
+        boolean result = false;
+        String sql = "insert into TMe_MerchandiseInfo(MerchandiseName,PicPath,Price) values(?,?,?)";
+        int a = jt.update(sql,new Object[]{mer.getMerchandisename(),mer.getPicpath(),mer.getPrice()},new int[]{Types.VARCHAR,Types.VARCHAR,Types.NUMERIC});
+        if(a>0){
+            result = true;
+        }
+        return result;
+    }
+
+    public List<Map<String,Object>> testmohu(String mer){
+        List<Map<String,Object>> result = null;
+        String sql = "select * from TMe_MerchandiseInfo a where a.MerchandiseName like ?";
+        result = jt.queryForList(sql,new Object[]{"%"+mer+"%"},new int[]{Types.VARCHAR});
         return result;
     }
 }
