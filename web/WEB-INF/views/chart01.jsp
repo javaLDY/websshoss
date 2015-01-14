@@ -144,12 +144,12 @@
                                                 <li>
                                                     <p class="pSty01" align="right">配送省份/直辖市：</p>
                                                     <p>
-                                                        <select id="provinceID" name="provinceID"  >
+                                                        <select id="provinceID" name="provinceID" >
                                                             <option selected="selected" value="">--请选择--</option>
                                                         </select>
                                                         &nbsp;&nbsp;市：
                                                         <select id="CityID" name="CityID"  >
-                                                            <option selected="selected" value="">--请选择--</option>
+                                                            <option selected="selected" value="" >--请选择--</option>
                                                         </select>
                                                         &nbsp;&nbsp;县/区：
                                                         <select id="AreaID" name="AreaID" >

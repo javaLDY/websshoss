@@ -18,6 +18,30 @@
     <script type="text/javascript">var pagesumnum = '${pagesumnum}'</script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/index.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#go").click(function(){
+                $.ajax({
+                    type : "post",
+                    url : _path+"/test/lucene1",
+                    data : {queryString:$("#txtbox").val(),pageindex:1,pagesize:10},
+                    success : function(msg){
+                        var aa = "";
+                        for(var i = 0;i<msg.length;i++){
+                            aa +=
+                                    "<dl>"+
+                                    "<dt><a href='${ctx}/shinowit/innerpage?merchanname="+msg[i].merchandisename+"' target='_new'><img src='<%=request.getContextPath()%>/"+msg[i].picpath+"' width='130' height='130' border='0' /></a></dt>"+
+                                    "<dd style='color: yellowgreen;text-align: center'>|"+msg[i].merchandisename+"||</dd>"+
+                                    "<dd  style='visibility:hidden' id='unique4'>"+msg[i].merchandisename+"</dd>"+
+                                    "<dd><span class='viv2'><a href='${ctx}/shinowit/innerpage?merchanname="+msg[i].merchandisename+"' target='_new'><img src='<%=request.getContextPath()%>/images/dianjichakan.jpg' width='80' height='24' border='0' style='margin-left: 40px' /></a></span></dd>"+
+                                    "</dl>"
+                        }
+                        document.getElementById("hotsalea").innerHTML = aa;
+                    }
+                })
+            })
+        });
+    </script>
 </head>
 
 <body>
@@ -35,10 +59,10 @@
         </ul>
         <p class="navRight"></p>
         <p class="topDiv"></p>
-        <form name="serch" action="#" method="post">
-            <input type="text" name="txtbox" value="购物搜索" class="txtBox" />
-            <input type="submit" name="go" value="搜" class="go" />
-        </form>
+        <div name="serch" action="#" method="post">
+            <input type="text" name="txtbox" id="txtbox" value="购物搜索" class="txtBox" />
+            <input type="submit" name="go" value="搜" class="go" id="go" />
+        </div>
     </div>
     <!--top end -->
     <!--header start -->

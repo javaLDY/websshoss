@@ -44,4 +44,5 @@ $(document).ready(function(){
         }
         window.location.href = "/shinowit/index?pageindex="+pageindex+"&merchanname="+$("#unique4").text();
     });
+
 });

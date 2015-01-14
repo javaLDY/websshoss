@@ -24,11 +24,16 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.util.Version;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -75,9 +80,9 @@ public class LuceneController {
 
                 document.add(txt_content_img);
 
-//                TextField txt_content_price = new TextField("price", ss.getPrice().toString(), Field.Store.YES);
-//
-//                document.add(txt_content_price);
+                TextField txt_content_price = new TextField("price", ss.getPrice().toString(), Field.Store.YES);
+
+                document.add(txt_content_price);
 
 
                 indexWriter.addDocument(document);
@@ -113,7 +118,21 @@ public class LuceneController {
         }
         return sb.toString();
     }
-    public static void query(int pageSize, int pageIndex, String queryString) throws Exception {
+    @RequestMapping("/lucene1")
+    @ResponseBody
+    public List<TmeMerchandiseinfo> query(@RequestParam(value = "pagesize",required = false)int pageSize, @RequestParam(value = "pageindex",required = false)int pageIndex, String queryString,Model model) throws Exception {
+        pageSize = 10;
+        pageIndex = 1;
+//        try {
+//            try {
+//                byte[] bb = queryString.getBytes("ISO-8859-1");
+//                queryString=new String(bb,"UTF-8");
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         File indexDir = new File("D://luceneIndex1");
         Analyzer analyzer = new IKAnalyzer();
@@ -149,27 +168,21 @@ public class LuceneController {
         // 关键字高亮显示的html标签，需要导入lucene-highlighter-x.x.x.jar
         SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<font color='red'>", "</font>");
         Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer(query));
-        long startTime = new Date().getTime();
+        List<TmeMerchandiseinfo> indexresult = new ArrayList<TmeMerchandiseinfo>();
         for (int i = 0; i < scoreDoc.length; i++) {
-            // 内部编号
             int doc_id = scoreDoc[i].doc;
-            // logger.debug("内部编号:" + doc_id);
-
-            // 根据文档id找到文档
             Document mydoc = indexSearcher.doc(doc_id);
-            // 内容增加高亮显示
             TokenStream tokenStream2 = analyzer.tokenStream("img", new StringReader(mydoc.get("img")));
             String content = highlighter.getBestFragment(tokenStream2, mydoc.get("img"));
-
-            //String content1 = highlighter.getBestFragment(tokenStream2, mydoc.get("price"));
-
+            TmeMerchandiseinfo em = new TmeMerchandiseinfo();
+            em.setMerchandisename(mydoc.get("filename"));
+            em.setPicpath(mydoc.get("img"));
+//            em.setPrice(Long.parseLong(mydoc.get("price")));
+            indexresult.add(em);
             System.out.println("商品名称 ：" + mydoc.get("filename") + " 图片路径:" + mydoc.get("img")+"价格"+mydoc.get("price"));
-
         }
-        long endTime = new Date().getTime();
-        System.out.println("It takes " + (endTime - startTime)
-                        + " milliseconds to create index for the files in directory "
-        );
+            model.addAttribute("indexresult",indexresult);
+        return indexresult;
     }
 
     @RequestMapping("/lucene")
@@ -187,21 +200,5 @@ public class LuceneController {
         }
         return "success";
     }
-    @RequestMapping("/lucene1")
-    public String test1(String name){
 
-        LuceneController ll = new LuceneController();
-        try {
-            try {
-                byte[] bb = name.getBytes("ISO-8859-1");
-                name=new String(bb,"UTF-8");
-                query(10,1,name);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "success";
-    }
 }

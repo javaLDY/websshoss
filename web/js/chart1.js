@@ -39,10 +39,12 @@ var MerAdd = function(id,recman,address,postcode,tel){
             cc = this.options[this.selectedIndex].innerText;//获取当前选中的县区
             ss("#Address").text(aa+bb+cc)//将选中的省，市，县区
         });
-        //市级获取
+//市级获取
         function showproince(){
             ss("#CityID").empty();//当选中省级的时候清空市，区，防止当再次选中省的时候或出现在市级上面出现堆积的现象
+            ss("#CityID").append(ss("<option/>").text("请选择"));
             ss("#AreaID").empty();
+            ss("#AreaID").append(ss("<option/>").text("请选择"));
             ss.ajax({
                 type : "POST",
                 url : _path+"/shinowit/city",
@@ -55,9 +57,11 @@ var MerAdd = function(id,recman,address,postcode,tel){
                 }
             });
         }
-        //区级查询
+//区级查询
         function showarea(){
             ss("#AreaID").empty();//同样是防止在选取市级的时候在县区上面出现堆积的现象
+            ss("#CityID").append(ss("<option/>").text("请选择"));
+            ss("#AreaID").append(ss("<option/>").text("请选择"));
             ss.ajax({
                 type : "POST",
                 url : _path+"/shinowit/area",
@@ -183,4 +187,5 @@ function meradd(){
         contendType : "application/json"
     })
 };
+
 //session失效跳转
