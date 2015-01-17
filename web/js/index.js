@@ -15,20 +15,22 @@ $(document).ready(function(){
     $("#tiaojian1").click(function(){
         var newpageindex = parseInt(pageindex)+1;
         var newpagesum = parseInt(pagesumnum);
+        var newquerystring = $("#unique4").attr("data");
         if(newpageindex>newpagesum){
             alert("已经是最后一页了！");
             return;
         }
-        window.location.href = "/shinowit/index?pageindex="+newpageindex+"&merchanname="+$("#unique4").text();
+        window.location.href = "/shinowit/index?pageindex="+newpageindex+"&merchanname="+$("#unique4").text()+"&queryString="+newquerystring;
     });
 
     $("#tiaojian2").click(function(){
         var newpageindex = parseInt(pageindex)-1;
+        var newquerystring = $("#unique4").attr("data");
         if(newpageindex==0){
             alert("已经是第一页了！");
             return;
         }
-        window.location.href = "/shinowit/index?pageindex="+newpageindex+"&merchanname="+$("#unique4").text();
+        window.location.href = "/shinowit/index?pageindex="+newpageindex+"&merchanname="+$("#unique4").text()+"&queryString="+newquerystring;
     });
 
     $("#pageto").click(function(){
@@ -45,4 +47,10 @@ $(document).ready(function(){
         window.location.href = "/shinowit/index?pageindex="+pageindex+"&merchanname="+$("#unique4").text();
     });
 
+    $("#go").click(function(){
+        var querystring = $("#txtbox").val();
+
+        window.location.href = "/shinowit/index?queryString="+querystring
+    })
 });
+

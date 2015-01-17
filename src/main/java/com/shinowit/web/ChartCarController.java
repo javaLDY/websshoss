@@ -44,7 +44,6 @@ public class ChartCarController {
         Double price =Double.valueOf(request.getParameter("price"));
         BigDecimal smallnum = BigDecimal.valueOf(price);
         BigDecimal newprice = BigDecimal.valueOf(price);
-
         try {
             byte[] bb = merchanname.getBytes("ISO-8859-1");
             merchanname = new String(bb, "UTF-8");

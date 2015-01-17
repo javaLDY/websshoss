@@ -33,10 +33,7 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 import javax.annotation.Resource;
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2015/1/14.
@@ -51,50 +48,7 @@ public class LuceneController {
     @Resource
     private TmeMerchandiseinfoMapper merdao;
 
-    public void createIndex( List<TmeMerchandiseinfo> merlist) throws Exception {
-        File indexDir = new File("D://luceneIndex1");
-        //File dataDir = new File(merlist.toString());
-        Analyzer analyzer = new IKAnalyzer();
-        //File[] dataFiles = dataDir.listFiles();
 
-        // 有文件系统或者内存存储方式,这里使用文件系统存储索引数据
-        Directory directory = new NIOFSDirectory(indexDir);
-
-        // 生成全文索引的配置对象
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_4_10_3, analyzer);
-
-        // 设置生成全文索引的方式为创建或者追加
-        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-
-        // 创建真正生成全文索引的writer对象
-        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-
-        long startTime = new Date().getTime();
-
-        for (TmeMerchandiseinfo ss : merlist) {
-                Document document = new Document();
-                StringField field_filename = new StringField("filename", ss.getMerchandisename(), Field.Store.YES);
-                document.add(field_filename);
-
-                TextField txt_content_img = new TextField("img", ss.getPicpath(), Field.Store.YES);
-
-                document.add(txt_content_img);
-
-                TextField txt_content_price = new TextField("price", ss.getPrice().toString(), Field.Store.YES);
-
-                document.add(txt_content_price);
-
-
-                indexWriter.addDocument(document);
-        }
-        indexWriter.commit();
-        indexWriter.close();
-        long endTime = new Date().getTime();
-
-        System.out.println("It takes " + (endTime - startTime)
-                + " milliseconds to create index for the files in directory "
-               );
-    }
 
     public String getFileReaderContent(String filePath){
         StringBuffer sb=new StringBuffer();
@@ -118,21 +72,10 @@ public class LuceneController {
         }
         return sb.toString();
     }
-    @RequestMapping("/lucene1")
-    @ResponseBody
-    public List<TmeMerchandiseinfo> query(@RequestParam(value = "pagesize",required = false)int pageSize, @RequestParam(value = "pageindex",required = false)int pageIndex, String queryString,Model model) throws Exception {
-        pageSize = 10;
-        pageIndex = 1;
-//        try {
-//            try {
-//                byte[] bb = queryString.getBytes("ISO-8859-1");
-//                queryString=new String(bb,"UTF-8");
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+    public  Map<String,Object> query(int pageSize, int pageIndex, String queryString) throws Exception {
+
+        Map<String,Object> resultMap=new HashMap<String,Object>();
 
         File indexDir = new File("D://luceneIndex1");
         Analyzer analyzer = new IKAnalyzer();
@@ -146,8 +89,8 @@ public class LuceneController {
 
         QueryParser queryParser = new MultiFieldQueryParser(Version.LUCENE_4_10_3, new String[]{"filename"}, analyzer);
         queryParser.setDefaultOperator(QueryParser.OR_OPERATOR);//多个关键字时采取 or 操作
-
         Query query = queryParser.parse(queryString + "*");
+
 
         int start = (pageIndex - 1) * pageSize;
         int max_result_size = start + pageSize;
@@ -157,12 +100,15 @@ public class LuceneController {
         int rowCount = topDocs.getTotalHits();  //满足条件的总记录数
         int pages = (rowCount - 1) / pageSize + 1; //计算总页数
 
+        resultMap.put("listsize",rowCount);
+
         System.out.println("查到的满足查询条件的记录:" + rowCount);
 
         System.out.println("满足查询条件分页页数:" + pages);
 
         TopDocs tds = topDocs.topDocs(start, pageSize);
         ScoreDoc[] scoreDoc = tds.scoreDocs;
+
 
 
         // 关键字高亮显示的html标签，需要导入lucene-highlighter-x.x.x.jar
@@ -177,28 +123,27 @@ public class LuceneController {
             TmeMerchandiseinfo em = new TmeMerchandiseinfo();
             em.setMerchandisename(mydoc.get("filename"));
             em.setPicpath(mydoc.get("img"));
-//            em.setPrice(Long.parseLong(mydoc.get("price")));
+            em.setPrice(new BigDecimal(mydoc.get("price")));
             indexresult.add(em);
             System.out.println("商品名称 ：" + mydoc.get("filename") + " 图片路径:" + mydoc.get("img")+"价格"+mydoc.get("price"));
         }
-            model.addAttribute("indexresult",indexresult);
-        return indexresult;
+        resultMap.put("list",indexresult);
+        return resultMap;
     }
 
-    @RequestMapping("/lucene")
-    public String test(){
-        LuceneController ll = new LuceneController();
-        try {
-            TmeMerchandiseinfoCriteria criteria = new TmeMerchandiseinfoCriteria();
-            TmeMerchandiseinfoCriteria.Criteria tj = criteria.createCriteria();
-            tj.andMerchandiseidIsNotNull();
-            List<TmeMerchandiseinfo> merlist = merdao.selectByExample(criteria);
-//            List<Map<String,Object>> merlist = dao.serch();
-            ll.createIndex(merlist);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "success";
-    }
+//    @RequestMapping("/lucene")
+//    public String test(){
+//        LuceneController ll = new LuceneController();
+//        try {
+//            TmeMerchandiseinfoCriteria criteria = new TmeMerchandiseinfoCriteria();
+//            TmeMerchandiseinfoCriteria.Criteria tj = criteria.createCriteria();
+//            tj.andMerchandiseidIsNotNull();
+//            List<TmeMerchandiseinfo> merlist = merdao.selectByExample(criteria);
+//            ll.createIndex(merlist);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return "success";
+//    }
 
 }
