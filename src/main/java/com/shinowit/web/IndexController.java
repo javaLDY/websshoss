@@ -142,7 +142,7 @@ public class IndexController {
             System.out.println("调用了缓存机制");
             return "index";
 
-        }else{
+        }else{//从这里开始就是进行全文索引的查询
             try {
                 byte[] bb = queryString.getBytes("ISO-8859-1");
                 queryString=new String(bb,"UTF-8");
