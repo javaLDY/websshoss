@@ -15,7 +15,7 @@
     <cache name="user_try_login_cache"
            maxEntriesLocalHeap="2000"
            eternal="false"
-           timeToIdleSeconds="3600"
+           timeToIdleSeconds="120"
            timeToLiveSeconds="120"
            overflowToDisk="false"
            statistics="true">

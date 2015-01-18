@@ -128,6 +128,16 @@
         <p class="design"><a href="http://www.CSSK8.com/" target="_blank" class="link">启奥科技</a></p>
     </div><!--footer end -->
     <!--body end -->
-</div><!--box-->
+</div>
+
+<script type="text/javascript">
+    <%
+        if(request.getAttribute("username")!=null){
+            out.println("alert('"+request.getAttribute("username")+"')");
+        }else{
+            out.println("alert('afsadf')");
+        }
+    %>
+</script><!--box-->
 </body>
 </html>

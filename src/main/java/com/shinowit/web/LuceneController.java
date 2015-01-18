@@ -130,20 +130,4 @@ public class LuceneController {
         resultMap.put("list",indexresult);
         return resultMap;
     }
-
-//    @RequestMapping("/lucene")
-//    public String test(){
-//        LuceneController ll = new LuceneController();
-//        try {
-//            TmeMerchandiseinfoCriteria criteria = new TmeMerchandiseinfoCriteria();
-//            TmeMerchandiseinfoCriteria.Criteria tj = criteria.createCriteria();
-//            tj.andMerchandiseidIsNotNull();
-//            List<TmeMerchandiseinfo> merlist = merdao.selectByExample(criteria);
-//            ll.createIndex(merlist);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return "success";
-//    }
-
 }

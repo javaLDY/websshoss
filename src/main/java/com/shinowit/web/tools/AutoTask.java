@@ -3,6 +3,8 @@ package com.shinowit.web.tools;
 import com.shinowit.dao.mapper.TmeMerchandiseinfoMapper;
 import com.shinowit.entity.TmeMerchandiseinfo;
 import com.shinowit.entity.TmeMerchandiseinfoCriteria;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -102,7 +104,7 @@ public class AutoTask {
         }
     }
 
-    @Scheduled(cron="0 2 0 ? * *")
+    //@Scheduled(cron="0 2 0 ? * *")
     public void autotaskcd() throws Exception {
         AutoTask auto = new AutoTask();
         auto.deleteindex();
@@ -112,5 +114,12 @@ public class AutoTask {
         List<TmeMerchandiseinfo> merlist = merdao.selectByExample(criteria);
         auto.createIndex(merlist);
     }
+
+//    @Scheduled(cron = "0 22 17 ? * *")
+//    public void loginsrror(){
+//        CacheManager manager = CacheManager.getInstance();
+//        Cache cache = manager.getCache("user_try_login_cache");
+//        cache.removeAll();
+//    }
 
 }

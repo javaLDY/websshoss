@@ -4,6 +4,7 @@ import com.shinowit.dao.mapper.ToolsDao;
 import com.shinowit.dao.mapper.TbaMemberinfoMapper;
 import com.shinowit.entity.TbaMemberinfo;
 import com.shinowit.entity.TbaMemberinfoCriteria;
+import com.shinowit.tools.CacheTest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,6 +31,9 @@ public class LoginController {
     @Resource
     private ToolsDao dao;
 
+    @Resource
+    private CacheTest cacheTest;
+
     @RequestMapping("/loginemail")
     public void testemail(@RequestParam("valid") String emailvalue,HttpServletResponse response){
             List<Map<String,Object>> memberlist = dao.selectstatus(emailvalue);
@@ -54,17 +58,30 @@ public class LoginController {
             request.setAttribute("username","密码不能为空");
             return "/login";
         }
+
         TbaMemberinfoCriteria criteria = new TbaMemberinfoCriteria();
         TbaMemberinfoCriteria.Criteria tj = criteria.createCriteria();
         tj.andEmailEqualTo(memebr.getEmail());
         List<TbaMemberinfo> memberlist = memberdao.selectByExample(criteria);
         String loginname = null;
         int loginid = 0;
+        String pwd = null;
         for(TbaMemberinfo mer : memberlist){
             loginname = mer.getUsername();
             loginid = mer.getId();
+            pwd = mer.getPwd();
         }
-        if(memberlist.size()>0){
+        boolean result = false;
+        if(!memebr.getPwd().equals(pwd)){
+            request.setAttribute("username","密码或者姓名输入有误");
+            boolean status = cacheTest.test(memebr.getPwd(),result);
+            if(status==false){
+                request.setAttribute("username","密码输入错误已达五次请五分钟之后输入");
+            }
+            return "/login";
+        }
+
+            if(memberlist.size()>0){
             request.getSession().setAttribute("loginame",loginname);
             request.getSession().setAttribute("loginid",loginid);
             return "redirect:/shinowit/index";

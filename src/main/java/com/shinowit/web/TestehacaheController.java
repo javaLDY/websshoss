@@ -19,25 +19,13 @@ import java.util.Map;
 @RequestMapping("/shinowit")
 public class TestehacaheController {
 
-
-
-//    public List<Map<String,List>> ehcache(String chartid){
-//        List<Map<String,Object>> result = null;
-//        Chart chart = chartdao.selectByPrimaryKey(Integer.valueOf(chartid));
-//        String name = chart.getMerchandisename();
-//        if (result != null) {
-//
-//        }
-//    }
-
-
     @Resource
     private CacheTest cacheTest;
 
-    @RequestMapping("/testehcache")
-    public String test(int chartid,Model model){
-        model.addAttribute("name", cacheTest.test(chartid));
-        return "/test";
-    }
+//    @RequestMapping("/testehcache")
+//    public String test(int chartid,Model model){
+//        model.addAttribute("name", cacheTest.test(chartid));
+//        return "/test";
+//    }
 
 }

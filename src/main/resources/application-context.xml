@@ -92,7 +92,7 @@
 
     <task:scheduled-tasks>
         <!-- 每天0时 2分 0秒 开始生成全文检索数据-->
-        <task:scheduled ref="AutoTask" method="autotaskcd" cron="20 50 0 * * ?"/>
+        <task:scheduled ref="AutoTask" method="autotaskcd" cron="0 39 22 * * ?"/>
         <!--以下是每隔5分钟执行一次的测试设定
         <task:scheduled ref="autoTask" method="work" cron="0 0/5 * * * ?"/>-->
 
