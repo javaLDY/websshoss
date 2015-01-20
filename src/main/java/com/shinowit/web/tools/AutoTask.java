@@ -115,7 +115,7 @@ public class AutoTask {
         auto.createIndex(merlist);
     }
 
-//    @Scheduled(cron = "0 22 17 ? * *")
+//    @Scheduled(cron = "0 19 17 ? * *")
 //    public void loginsrror(){
 //        CacheManager manager = CacheManager.getInstance();
 //        Cache cache = manager.getCache("user_try_login_cache");

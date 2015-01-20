@@ -5,6 +5,9 @@ import com.shinowit.dao.mapper.TbaMemberinfoMapper;
 import com.shinowit.entity.TbaMemberinfo;
 import com.shinowit.entity.TbaMemberinfoCriteria;
 import com.shinowit.tools.CacheTest;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +37,15 @@ public class LoginController {
 
     @Resource
     private CacheTest cacheTest;
+
+   // private static Map<String,Object> error_time_map = new HashMap<String,Object>();
+
+    private static CacheManager cacheManager = CacheManager.getInstance();
+
+    private Cache cache;
+
+    public static void test(){
+    }
 
     @RequestMapping("/loginemail")
     public void testemail(@RequestParam("valid") String emailvalue,HttpServletResponse response){
@@ -59,6 +72,21 @@ public class LoginController {
             return "/login";
         }
 
+        cache = cacheManager.getCache("user_try_login_cache");
+
+        Element try_time = cache.get(memebr.getEmail());
+        if(null!=try_time){
+            Object real_try_time = try_time.getObjectValue();
+            Integer aa = (Integer)real_try_time;
+            aa++;
+            Element element = new Element(memebr.getEmail(),aa);
+            cache.put(element);
+            if(aa>5){
+                request.setAttribute("username", "你已经输入错误信息五次请5分钟之后再输入");
+                return "login";
+            }
+        }
+
         TbaMemberinfoCriteria criteria = new TbaMemberinfoCriteria();
         TbaMemberinfoCriteria.Criteria tj = criteria.createCriteria();
         tj.andEmailEqualTo(memebr.getEmail());
@@ -71,13 +99,17 @@ public class LoginController {
             loginid = mer.getId();
             pwd = mer.getPwd();
         }
-        boolean result = false;
-        if(!memebr.getPwd().equals(pwd)){
-            request.setAttribute("username","密码或者姓名输入有误");
-            boolean status = cacheTest.test(memebr.getPwd(),result);
-            if(status==false){
-                request.setAttribute("username","密码输入错误已达五次请五分钟之后输入");
+
+
+        if(!memebr.getPwd().equals(pwd)) {
+            if (null!=cache){
+                if (cache.get(memebr.getEmail())==null){
+//                    Element element = new Element(memebr.getEmail(),Integer.valueOf(1));
+//                    cache.put(element);
+                    cacheTest.totaltime(memebr.getEmail(),Integer.valueOf(1));
+                }
             }
+            request.setAttribute("username", "密码或者姓名输入有误");
             return "/login";
         }
 
@@ -89,4 +121,5 @@ public class LoginController {
             return "/login";
         }
     }
+
 }
